@@ -11,3 +11,6 @@ public class newpanel extends JPanel{
 	
 	//Constructor
 }
+
+
+
