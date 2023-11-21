@@ -15,16 +15,13 @@ public class newpanel extends JPanel{
 	int intAccelY = -2;
 	int accelChange = 2;
 	
-	int intMaxX = 740;
-	int intMinX = 640;
-	int intMaxY = 320;
-	int intMinY = 220;
+	int intChangeX = 690;
+	int intChangeY = 270;
 	
 	double dblMass;
 	double dblVelocity;
-	double dblRadius;
 	double dblPeriod;
-	
+	double dblRadius;
 	//Methods
 	public void paintComponent(Graphics g){
 		
@@ -34,17 +31,17 @@ public class newpanel extends JPanel{
 		g.setColor(Color.RED);
 		g.fillOval(intPosX, intPosY, 20, 20);
 		
-		if(intPosX <= intMinX){
+		if(intPosX < intChangeX){
 			intAccelX = accelChange;
 		}
-		if(intPosX >= intMaxX){
+		if(intPosX >= intChangeX){
 			intAccelX = -accelChange;
 		}
-		if (intPosY <= intMinY){
+		if (intPosY <= intChangeY){
 			intAccelY = accelChange;
 			System.out.println("Going down");
 		}
-		if (intPosY >= intMaxY){
+		if (intPosY >= intChangeY){
 			intAccelY = -accelChange;
 			System.out.println("Going up");
 		}
@@ -52,7 +49,7 @@ public class newpanel extends JPanel{
 		intVeloX += intAccelX;
 		intVeloY += intAccelY;
 		intPosX += intVeloX;
-		intPosY += intVeloY;
+		//intPosY += intVeloY;
 		
 		System.out.println(intVeloX);
 		System.out.println(intVeloY);
