@@ -1,9 +1,12 @@
+// Centripdeal Force
+// By Addison and Thomson
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.*;
 
-public class untitled implements ActionListener, KeyListener, MouseListener, MouseMotionListener{
+public class centripedal implements ActionListener, KeyListener, MouseListener, MouseMotionListener{
 	// Properties
 	JFrame theFrame = new JFrame("GUI Project");
 	newpanel thePanel = new newpanel();
@@ -37,7 +40,7 @@ public class untitled implements ActionListener, KeyListener, MouseListener, Mou
 	}
 	
 	// Constructor
-	public untitled(){
+	public centripedal(){
 		thePanel.setPreferredSize(new Dimension(1000, 1000));
 		theFrame.setContentPane(thePanel);
 		theFrame.pack();
@@ -48,6 +51,6 @@ public class untitled implements ActionListener, KeyListener, MouseListener, Mou
 	}
 	// Main Method
 	public static void main(String[] args){
-		new untitled();
+		new centripedal();
 	}
 }
