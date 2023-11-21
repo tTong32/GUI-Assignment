@@ -14,6 +14,9 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	
 	// Methods
 	public void actionPerformed(ActionEvent evt){
+		if(evt.getSource() == theTimer){
+			thePanel.repaint();
+		}
 	}
 	
 	public void keyReleased(KeyEvent evt){
@@ -41,13 +44,13 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	
 	// Constructor
 	public centripedal(){
-		thePanel.setPreferredSize(new Dimension(1000, 1000));
+		thePanel.setPreferredSize(new Dimension(960,540));
 		theFrame.setContentPane(thePanel);
 		theFrame.pack();
 		theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		theFrame.setResizable(false);
 		theFrame.setVisible(true);
-		
+		theTimer.start();
 	}
 	// Main Method
 	public static void main(String[] args){
