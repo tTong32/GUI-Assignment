@@ -7,21 +7,19 @@ import javax.imageio.*;
 public class newpanel extends JPanel{
 	//Properties
 	int intPosX = 740;
-	int intPosY = 220;
-	int intVeloX = 0;
-	int intVeloY = 10;
-	int intAccel;
-	int intAccelX = 2;
-	int intAccelY = -2;
-	int accelChange = 2;
+	int intVeloX;
+	int intAccelX;
 	
-	int intChangeX = 690;
-	int intChangeY = 270;
+	int intPosY = 270;
+	int intVeloY;
+	int intAccelY;
+	
+	double dblDegrees = 0;
 	
 	double dblMass;
 	double dblVelocity;
-	double dblPeriod;
-	double dblRadius;
+	double dblPeriod = 2;
+	double dblRadius = 200;
 	//Methods
 	public void paintComponent(Graphics g){
 		
@@ -31,28 +29,11 @@ public class newpanel extends JPanel{
 		g.setColor(Color.RED);
 		g.fillOval(intPosX, intPosY, 20, 20);
 		
-		if(intPosX < intChangeX){
-			intAccelX = accelChange;
-		}
-		if(intPosX >= intChangeX){
-			intAccelX = -accelChange;
-		}
-		if (intPosY <= intChangeY){
-			intAccelY = accelChange;
-			System.out.println("Going down");
-		}
-		if (intPosY >= intChangeY){
-			intAccelY = -accelChange;
-			System.out.println("Going up");
-		}
+		dblDegrees += 360/(48*dblPeriod);
 		
-		intVeloX += intAccelX;
-		intVeloY += intAccelY;
-		intPosX += intVeloX;
-		//intPosY += intVeloY;
+		intPosY = (int)((dblRadius)*(Math.sin(Math.toRadians(dblDegrees)))+ 270);
+		intPosX = (int)((dblRadius)*(Math.cos(Math.toRadians(dblDegrees)))+ 690);
 		
-		System.out.println(intVeloX);
-		System.out.println(intVeloY);
 	}
 	//Constructor
 }
