@@ -10,19 +10,28 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	// Properties
 	JFrame theFrame = new JFrame("GUI Project");
 	newpanel thePanel = new newpanel();
+	
 	Timer theTimer = new Timer(1000/48, this);
+	
 	JLabel massLabel = new JLabel("Mass");
 	JTextField massText = new JTextField();
+	
 	JLabel velocityLabel = new JLabel("Velocity");
 	JTextField velocityText = new JTextField();
+	
 	JLabel radiusLabel = new JLabel("Radius");
 	JTextField radiusText = new JTextField();
+	
 	JLabel periodLabel = new JLabel("Period");
 	JTextField periodText = new JTextField();
+	
 	JButton pictureButton = new JButton("Form Picture");
 	
 	// Methods
 	public void actionPerformed(ActionEvent evt){
+		if (evt.getSource() == theTimer){
+				thePanel.repaint();
+		}
 	}
 	
 	public void keyReleased(KeyEvent evt){
@@ -52,7 +61,6 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	public centripedal(){
 		thePanel.setLayout(null);
 		thePanel.setPreferredSize(new Dimension(960, 540));
-		
 		
 		massText.setSize(100, 30);
 		massText.setLocation(100,20);
@@ -93,6 +101,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		theFrame.setResizable(false);
 		theFrame.setVisible(true);
+		
+		theTimer.start();
 		
 	}
 	// Main Method
