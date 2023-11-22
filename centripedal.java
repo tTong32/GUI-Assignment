@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.*;
+import java.awt.Font;
 
 public class centripedal implements ActionListener, KeyListener, MouseListener, MouseMotionListener{
 	// Properties
@@ -14,6 +15,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	Timer theTimer = new Timer(1000/48, this);
 	
 	JLabel massLabel = new JLabel("Mass");
+	JSlider massSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
 	JTextField massText = new JTextField();
 	
 	JLabel velocityLabel = new JLabel("Velocity");
@@ -62,39 +64,55 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		thePanel.setLayout(null);
 		thePanel.setPreferredSize(new Dimension(960, 540));
 		
-		massText.setSize(100, 30);
-		massText.setLocation(100,20);
-		thePanel.add(massText);
-		massLabel.setSize(75, 65);
+		//massText.setSize(100, 30);
+		//massText.setLocation(100,20);
+		//thePanel.add(massText);
+		massSlider.setMajorTickSpacing(25);
+		massSlider.setMinorTickSpacing(5);
+		massSlider.setPaintTicks(true);
+		massSlider.setPaintLabels(true);
+		massSlider.setSize(200, 50);
+		massSlider.setLocation(30, 130);
+		thePanel.add(massSlider);
+		massLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
+		massLabel.setSize(200, 200);
 		massLabel.setLocation(30, 0);
 		thePanel.add(massLabel);
 		
-		velocityText.setSize(100, 30);
-		velocityText.setLocation(100,70);
-		thePanel.add(velocityText);
-		velocityLabel.setSize(75, 115);
-		velocityLabel.setLocation(30, 30);
+		
+		//velocityText.setSize(100, 30);
+		//velocityText.setLocation(100,70);
+		//thePanel.add(velocityText);
+		velocityLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
+		velocityLabel.setSize(200, 200);
+		velocityLabel.setLocation(30, 120);
 		thePanel.add(velocityLabel);
 		
-		radiusText.setSize(100, 30);
-		radiusText.setLocation(100,120);
-		thePanel.add(radiusText);
-		radiusLabel.setSize(75, 165);
-		radiusLabel.setLocation(30, 50);
+		
+		//radiusText.setSize(100, 30);
+		//radiusText.setLocation(100,120);
+		//thePanel.add(radiusText);
+		radiusLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
+		radiusLabel.setSize(200, 200);
+		radiusLabel.setLocation(30, 240);
 		radiusText.setSize(100, 30);
 		thePanel.add(radiusLabel);
 		
-		periodText.setSize(100, 30);
-		periodText.setLocation(100, 170);
-		thePanel.add(periodText);
-		periodLabel.setSize(75, 215);
-		periodLabel.setLocation(30, 80);
+		//periodText.setSize(100, 30);
+		//periodText.setLocation(100, 170);
+		//thePanel.add(periodText);
+		periodLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
+		periodLabel.setSize(200, 200);
+		periodLabel.setLocation(30, 360);
 		thePanel.add(periodLabel);
 		
-		pictureButton.setSize(190, 40);
-		pictureButton.setLocation(25, 225);
+		/*
+		pictureButton.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+		pictureButton.setSize(300, 70);
+		pictureButton.setLocation(30, 450);
 		pictureButton.addActionListener(this);
 		thePanel.add(pictureButton);
+		*/
 		
 		theFrame.setContentPane(thePanel);
 		theFrame.pack();
