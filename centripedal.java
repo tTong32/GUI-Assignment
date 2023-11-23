@@ -14,6 +14,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	newpanel thePanel = new newpanel();
 	helppanel newHelpPanel = new helppanel();
 	
+	JLabel helpLabel = new JLabel("Poon is gay");
+	
 	Timer theTimer = new Timer(1000/48, this);
 	
 	JMenuBar menuBar = new JMenuBar();
@@ -45,7 +47,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		}
 		if(evt.getSource() == helpItem){
 			theFrame.setVisible(false);
-			theFrame.setContentPane(thePanel);
+			theFrame.setContentPane(newHelpPanel);
 			theFrame.setVisible(true);
 		}
 	}
@@ -109,6 +111,10 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		theFrame.setJMenuBar(menuBar);
 		
 		helpItem.addActionListener(this);
+		helpLabel.setFont(new Font("times New Roman", Font.PLAIN, 50));
+		helpLabel.setSize(200, 200);
+		helpLabel.setLocation(30, -50);
+		newHelpPanel.add(helpLabel);
 		
 		//massText.setSize(100, 30);
 		//massText.setLocation(100,20);
