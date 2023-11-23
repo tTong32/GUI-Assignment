@@ -13,13 +13,15 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JFrame theFrame = new JFrame("GUI Project");
 	newpanel thePanel = new newpanel();
 	helppanel newHelpPanel = new helppanel();
+	creditpanel newCreditPanel = new creditpanel();
 	
-	JLabel helpLabel = new JLabel("Poon is gay");
-	
+	JLabel helpLabel = new JLabel("Poon");
+	JLabel creditLabel = new JLabel("Poon made this");
 	Timer theTimer = new Timer(1000/48, this);
 	
 	JMenuBar menuBar = new JMenuBar();
 	JMenu openMenu = new JMenu("Menu");
+	JMenuItem homeItem = new JMenuItem("Home");
 	JMenuItem helpItem = new JMenuItem("Help");
 	JMenuItem creditItem = new JMenuItem("Credits");
 	
@@ -48,6 +50,14 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		if(evt.getSource() == helpItem){
 			theFrame.setVisible(false);
 			theFrame.setContentPane(newHelpPanel);
+			theFrame.setVisible(true);
+		}if(evt.getSource() == homeItem){
+			theFrame.setVisible(false);
+			theFrame.setContentPane(thePanel);
+			theFrame.setVisible(true);
+		}if(evt.getSource() == creditItem){
+			theFrame.setVisible(false);
+			theFrame.setContentPane(newCreditPanel);
 			theFrame.setVisible(true);
 		}
 	}
@@ -106,15 +116,24 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		thePanel.setLayout(null);
 		thePanel.setPreferredSize(new Dimension(960, 540));
 		menuBar.add(openMenu);
+		openMenu.add(homeItem);
 		openMenu.add(helpItem);
 		openMenu.add(creditItem);	
 		theFrame.setJMenuBar(menuBar);
 		
+		creditItem.addActionListener(this);
+		creditLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
+		creditLabel.setSize(200, 200);
+		creditLabel.setLocation(0, -50);
+		newCreditPanel.add(creditLabel);
+		
 		helpItem.addActionListener(this);
-		helpLabel.setFont(new Font("times New Roman", Font.PLAIN, 50));
+		helpLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
 		helpLabel.setSize(200, 200);
 		helpLabel.setLocation(30, -50);
 		newHelpPanel.add(helpLabel);
+		
+		homeItem.addActionListener(this);
 		
 		//massText.setSize(100, 30);
 		//massText.setLocation(100,20);
