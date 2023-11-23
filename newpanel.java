@@ -50,7 +50,7 @@ public class newpanel extends JPanel{
 		intPosX = (int)((dblRadius * 5)*(Math.cos(Math.toRadians(dblDegrees)))+ 690);
 		
 		dblForceCentr = (dblMass * dblVelocity * dblVelocity) / dblRadius;
-		System.out.println("Centripedal force is: " + dblForceCentr);
+		//System.out.println("Centripedal force is: " + dblForceCentr);
 		
 	}
 }
