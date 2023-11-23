@@ -1,6 +1,7 @@
 // Centripdeal Force
 // By Addison and Thomson
 
+import java.io.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -11,8 +12,14 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	// Properties
 	JFrame theFrame = new JFrame("GUI Project");
 	newpanel thePanel = new newpanel();
+	helppanel newHelpPanel = new helppanel();
 	
 	Timer theTimer = new Timer(1000/48, this);
+	
+	JMenuBar menuBar = new JMenuBar();
+	JMenu openMenu = new JMenu("Menu");
+	JMenuItem helpItem = new JMenuItem("Help");
+	JMenuItem creditItem = new JMenuItem("Credits");
 	
 	JLabel massLabel = new JLabel("Mass");
 	JSlider massSlider = new JSlider();
@@ -26,7 +33,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JLabel radiusLabel = new JLabel("Radius");
 	JTextField radiusText = new JTextField();
 	
-	JSlider periodSlider = new JSlider();
+	JSlider periodSlider = new JSlider(0, 20);
 	JLabel periodLabel = new JLabel("Period");
 	JTextField periodText = new JTextField();
 	
@@ -35,6 +42,11 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	public void actionPerformed(ActionEvent evt){
 		if (evt.getSource() == theTimer){
 				thePanel.repaint();
+		}
+		if(evt.getSource() == helpItem){
+			theFrame.setVisible(false);
+			theFrame.setContentPane(thePanel);
+			theFrame.setVisible(true);
 		}
 	}
 	public void stateChanged(ChangeEvent evt){
@@ -91,6 +103,12 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	public centripedal(){
 		thePanel.setLayout(null);
 		thePanel.setPreferredSize(new Dimension(960, 540));
+		menuBar.add(openMenu);
+		openMenu.add(helpItem);
+		openMenu.add(creditItem);	
+		theFrame.setJMenuBar(menuBar);
+		
+		helpItem.addActionListener(this);
 		
 		//massText.setSize(100, 30);
 		//massText.setLocation(100,20);
@@ -147,8 +165,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		//periodText.setLocation(100, 170);
 		//thePanel.add(periodText);
 		periodSlider.addChangeListener(this);
-		periodSlider.setMajorTickSpacing(25);
-		periodSlider.setMinorTickSpacing(5);
+		periodSlider.setMajorTickSpacing(5);
+		periodSlider.setMinorTickSpacing(1);
 		periodSlider.setPaintTicks(true);
 		periodSlider.setPaintLabels(true);
 		periodSlider.setSize(200, 50);
