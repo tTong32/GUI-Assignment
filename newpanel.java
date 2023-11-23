@@ -14,12 +14,16 @@ public class newpanel extends JPanel{
 	int intVeloY;
 	int intAccelY;
 	
+	boolean blnGravity = true;
+	
 	double dblDegrees = 0;
 	
-	double dblMass;
-	double dblVelocity;
-	double dblPeriod = 2;
-	double dblRadius = 200;
+	double dblMass = 10;
+	double dblVelocity = 5;
+	double dblPeriod = 2; // seconds it takes for a revolution
+	double dblRadius = 20; // every 5 pixels is 1 m
+	double dblForceCentr;
+	
 	//Methods
 	public void paintComponent(Graphics g){
 		
@@ -27,15 +31,17 @@ public class newpanel extends JPanel{
 		g.fillRect(0,0,960,540);
 		
 		g.setColor(Color.RED);
-		g.fillOval(intPosX, intPosY, 20, 20);
+		g.fillOval(intPosX, intPosY, (int)(dblMass), (int)(dblMass));
 		
 		dblDegrees += 360/(48*dblPeriod);
 		
-		intPosY = (int)((dblRadius)*(Math.sin(Math.toRadians(dblDegrees)))+ 270);
-		intPosX = (int)((dblRadius)*(Math.cos(Math.toRadians(dblDegrees)))+ 690);
+		intPosY = (int)((dblRadius*5)*(Math.sin(Math.toRadians(dblDegrees)))+ 270);
+		intPosX = (int)((dblRadius*5)*(Math.cos(Math.toRadians(dblDegrees)))+ 690);
+		
+		dblForceCentr = (dblMass * dblVelocity * dblVelocity) / dblRadius;
+		System.out.println("Centripedal force is: " + dblForceCentr);
 		
 	}
-	//Constructor
 }
 
 
