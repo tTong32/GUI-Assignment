@@ -65,26 +65,26 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		if(evt.getSource() == radiusSlider){
 			JSlider theSlider = (JSlider)evt.getSource();
 			if(!theSlider.getValueIsAdjusting()) {
-				int radius = (int)theSlider.getValue();
-				System.out.println("The radius is " + radius);
+				thePanel.dblRadius = theSlider.getValue();
+				System.out.println("The radius is " + thePanel.dblRadius);
 			} 
         }if(evt.getSource() == velocitySlider){
 			JSlider theSlider = (JSlider)evt.getSource();
 			if(!theSlider.getValueIsAdjusting()) {
-				int velocity = (int)theSlider.getValue();
-				System.out.println("The velocity is " + velocity);
+				thePanel.dblVelocity = theSlider.getValue();
+				System.out.println("The velocity is " + thePanel.dblVelocity);
 			} 
         }if(evt.getSource() == periodSlider){
 			JSlider theSlider = (JSlider)evt.getSource();
 			if(!theSlider.getValueIsAdjusting()) {
-				int period = (int)theSlider.getValue();
-				System.out.println("The period is " + period);
+				thePanel.dblPeriod = theSlider.getValue();
+				System.out.println("The period is " + thePanel.dblPeriod);
 			} 
         }if(evt.getSource() == massSlider){
 			JSlider theSlider = (JSlider)evt.getSource();
 			if(!theSlider.getValueIsAdjusting()) {
-				int mass = (int)theSlider.getValue();
-				System.out.println("The mass is " + mass);
+				thePanel.dblMass = theSlider.getValue();
+				System.out.println("The mass is " + thePanel.dblMass);
 			} 
         }
 	}
