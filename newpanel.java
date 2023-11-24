@@ -19,7 +19,6 @@ public class newpanel extends JPanel{
 	double dblDegrees = 0;
 	
 	double dblMass = 200; // in kg
-	double dblVelocity = 5;
 	double dblPeriod = 5; // seconds it takes for a revolution
 	double dblRadius = 50; // every 5 pixels is 1 m
 	double dblForceCentr;
@@ -30,6 +29,9 @@ public class newpanel extends JPanel{
 		int intMass = (int)dblMass / 10;
 		int intRadius = (int)dblRadius * 5;
 		
+		//
+		
+		// The tracer is used to "map" out the movement of the ball
 		int intTracerDiameter = intRadius*2 + intMass/4;
 		int intTracerRadius = intRadius + intMass/8;
 		int intTracerWidth = intMass / 4;
@@ -50,8 +52,7 @@ public class newpanel extends JPanel{
 		
 		intPosY = (int)((dblRadius * 5)*(Math.sin(Math.toRadians(dblDegrees)))+ 270);
 		intPosX = (int)((dblRadius * 5)*(Math.cos(Math.toRadians(dblDegrees)))+ 690);
-		
-		dblForceCentr = (dblMass * dblVelocity * dblVelocity) / dblRadius;
+
 		//System.out.println("Centripedal force is: " + dblForceCentr);
 		
 	}
