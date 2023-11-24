@@ -34,8 +34,12 @@ public class newpanel extends JPanel{
 		int intTracerRadius = intRadius + intMass/8;
 		int intTracerWidth = intMass / 4;
 		
+		Color color = new Color(247, 242, 242);
+		g.setColor(color);
+		g.fillRect(0, 0, 400, 540);
+		
 		g.setColor(Color.WHITE);
-		g.fillRect(0,0,960,540);
+		g.fillRect(400,0,560,540);
 		
 		g.setColor(Color.RED);
 		g.fillOval(690 - intTracerRadius, 270 - intTracerRadius, intTracerDiameter, intTracerDiameter);
