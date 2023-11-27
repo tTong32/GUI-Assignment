@@ -18,9 +18,9 @@ public class newpanel extends JPanel{
 	
 	double dblDegrees = 0;
 	
-	double dblMass = 200; // in kg
-	double dblPeriod = 5; // seconds it takes for a revolution
-	double dblRadius = 50; // every 5 pixels is 1 m
+	double dblMass = 300; // in kg
+	double dblPeriod = 8; // seconds it takes for a revolution
+	double dblRadius = 25; // every 5 pixels is 1 m
 	double dblForceCentr;
 	
 	//Methods
@@ -51,6 +51,7 @@ public class newpanel extends JPanel{
 
 		g.setColor(Color.RED);
 		g.fillOval(intPosX - (intMass / 2), intPosY - (intMass / 2), intMass, intMass);
+		g.drawRect(690, 265, intTracerRadius, 10);
 		
 		dblDegrees += 360/(48*dblPeriod);
 		

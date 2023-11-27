@@ -14,6 +14,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	newpanel thePanel = new newpanel();
 	helppanel newHelpPanel = new helppanel();
 	creditpanel newCreditPanel = new creditpanel();
+	testpanel newTestPanel = new testpanel();
 	
 	JLabel helpLabel = new JLabel("Poon");
 	JLabel creditLabel = new JLabel("Poon made this");
@@ -24,16 +25,11 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JMenuItem homeItem = new JMenuItem("Home");
 	JMenuItem helpItem = new JMenuItem("Help");
 	JMenuItem creditItem = new JMenuItem("Credits");
+	JMenuItem testItem = new JMenuItem("Test");
 	
 	JLabel massLabel = new JLabel("Mass");
 	JSlider massSlider = new JSlider(100, 500);
 	JTextField massText = new JTextField();
-	
-	/*
-	JSlider velocitySlider = new JSlider();
-	JLabel velocityLabel = new JLabel("Velocity");
-	JTextField velocityText = new JTextField();
-	*/
 	
 	JSlider radiusSlider = new JSlider(0, 50);
 	JLabel radiusLabel = new JLabel("Radius");
@@ -42,6 +38,10 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JSlider periodSlider = new JSlider(1, 16);
 	JLabel periodLabel = new JLabel("Period");
 	JTextField periodText = new JTextField();
+
+	JSlider forceSlider = new JSlider();
+	JLabel forceLabel = new JLabel("Force");
+	JTextField forceText = new JTextField();
 	
 	JButton pictureButton = new JButton("Form Picture");
 	// Methods
@@ -68,25 +68,21 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	}
 	public void stateChanged(ChangeEvent evt){
 		if(evt.getSource() == radiusSlider){
-				double radiusValue = radiusSlider.getValue();
-				thePanel.dblRadius = radiusValue;
+				thePanel.dblRadius = radiusSlider.getValue();
 				System.out.println("The radius is " + thePanel.dblRadius);
 			
         }
-        /*
-        if(evt.getSource() == velocitySlider){
-				double velocityValue = velocitySlider.getValue();
-				thePanel.dblVelocity = velocityValue;
-				System.out.println("The velocity is " + thePanel.dblVelocity); 
-        }
-        */ if(evt.getSource() == periodSlider){
-				double periodValue = periodSlider.getValue();
-				thePanel.dblPeriod = periodValue;
+        if(evt.getSource() == periodSlider){
+				thePanel.dblPeriod = periodSlider.getValue();
 				System.out.println("The period is " + thePanel.dblPeriod);
-        }if(evt.getSource() == massSlider){
-				double massValue = massSlider.getValue();
-				thePanel.dblMass = massValue;
+        }
+		if(evt.getSource() == massSlider){
+				thePanel.dblMass = massSlider.getValue();
 				System.out.println("The mass is " + thePanel.dblMass);
+        }
+        if(evt.getSource() == forceSlider){
+				thePanel.dblForceCentr  = forceSlider.getValue();
+				System.out.println("The velocity is " + thePanel.dblForceCentr); 
         }
 	}
 	public void keyReleased(KeyEvent evt){
@@ -152,25 +148,6 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		massLabel.setLocation(30, -50);
 		thePanel.add(massLabel);
 		
-		
-		//velocityText.setSize(100, 30);
-		//velocityText.setLocation(100,70);
-		//thePanel.add(velocityText);
-		/*
-		velocitySlider.addChangeListener(this);
-		velocitySlider.setMajorTickSpacing(25);
-		velocitySlider.setMinorTickSpacing(5);
-		velocitySlider.setPaintTicks(true);
-		velocitySlider.setPaintLabels(true);
-		velocitySlider.setSize(200, 50);
-		velocitySlider.setLocation(30, 200);
-		thePanel.add(velocitySlider);
-		velocityLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
-		velocityLabel.setSize(200, 200);
-		velocityLabel.setLocation(30, 70);
-		thePanel.add(velocityLabel);
-		*/
-		
 		//radiusText.setSize(100, 30);
 		//radiusText.setLocation(100,120);
 		//thePanel.add(radiusText);
@@ -180,11 +157,11 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		radiusSlider.setPaintTicks(true);
 		radiusSlider.setPaintLabels(true);
 		radiusSlider.setSize(200, 50);
-		radiusSlider.setLocation(30, 320);
+		radiusSlider.setLocation(30, 200);
 		thePanel.add(radiusSlider);
 		radiusLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
 		radiusLabel.setSize(200, 200);
-		radiusLabel.setLocation(30, 190);
+		radiusLabel.setLocation(30, 70);
 		radiusText.setSize(100, 30);
 		thePanel.add(radiusLabel);
 		
@@ -197,12 +174,29 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		periodSlider.setPaintTicks(true);
 		periodSlider.setPaintLabels(true);
 		periodSlider.setSize(200, 50);
-		periodSlider.setLocation(30, 440);
+		periodSlider.setLocation(30, 320);
 		thePanel.add(periodSlider);
 		periodLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
 		periodLabel.setSize(200, 200);
-		periodLabel.setLocation(30, 310);
+		periodLabel.setLocation(30, 190);
 		thePanel.add(periodLabel);
+
+		//velocityText.setSize(100, 30);
+		//velocityText.setLocation(100,70);
+		//thePanel.add(velocityText);
+
+		forceSlider.addChangeListener(this);
+		forceSlider.setMajorTickSpacing(25);
+		forceSlider.setMinorTickSpacing(5);
+		forceSlider.setPaintTicks(true);
+		forceSlider.setPaintLabels(true);
+		forceSlider.setSize(200, 50);
+		forceSlider.setLocation(30, 440);
+		thePanel.add(forceSlider);
+		forceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
+		forceLabel.setSize(200, 200);
+		forceLabel.setLocation(30, 310);
+		thePanel.add(forceLabel);
 		
 		/*
 		pictureButton.setFont(new Font("Times New Roman", Font.PLAIN, 30));
