@@ -44,6 +44,11 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JTextField forceText = new JTextField();
 	
 	JButton pictureButton = new JButton("Form Picture");
+	
+	JLabel testQuestion1Label = new JLabel("1. What is the definition of centripedal force?");
+	JButton testQuestion1A = new JButton("True");
+	JButton testQuestion1B = new JButton("False");
+	
 	// Methods
 	public void actionPerformed(ActionEvent evt){
 		if (evt.getSource() == theTimer){
@@ -62,6 +67,11 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		}if(evt.getSource() == creditItem){
 			theFrame.setVisible(false);
 			theFrame.setContentPane(newCreditPanel);
+			theFrame.setVisible(true);
+			theFrame.repaint();
+		}if(evt.getSource() == testItem){
+			theFrame.setVisible(false);
+			theFrame.setContentPane(newTestPanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
 		}
@@ -111,11 +121,18 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	// Constructor
 	public centripedal(){
 		thePanel.setLayout(null);
+		newTestPanel.setLayout(null);
+		newHelpPanel.setLayout(null);
+		newCreditPanel.setLayout(null);
 		thePanel.setPreferredSize(new Dimension(960, 540));
+		newTestPanel.setPreferredSize(new Dimension(960, 540));
+		newHelpPanel.setPreferredSize(new Dimension(960, 540));
+		newCreditPanel.setPreferredSize(new Dimension(960, 540));
 		menuBar.add(openMenu);
 		openMenu.add(homeItem);
 		openMenu.add(helpItem);
 		openMenu.add(creditItem);	
+		openMenu.add(testItem);
 		theFrame.setJMenuBar(menuBar);
 		
 		creditItem.addActionListener(this);
@@ -198,6 +215,19 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		forceLabel.setLocation(30, 310);
 		thePanel.add(forceLabel);
 		
+		testItem.addActionListener(this);
+		testQuestion1Label.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		testQuestion1Label.setSize(400, 200);
+		testQuestion1Label.setLocation(10,-50);
+		newTestPanel.add(testQuestion1Label);
+		testQuestion1A.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+		testQuestion1A.setSize(100, 50);
+		testQuestion1A.setLocation(10, 80);
+		newTestPanel.add(testQuestion1A);
+		testQuestion1B.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+		testQuestion1B.setSize(100, 50);
+		testQuestion1B.setLocation(160, 80);
+		newTestPanel.add(testQuestion1B);
 		/*
 		pictureButton.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 		pictureButton.setSize(300, 70);
