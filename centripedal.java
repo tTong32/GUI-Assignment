@@ -35,7 +35,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JLabel radiusLabel = new JLabel("Radius");
 	JTextField radiusText = new JTextField();
 	
-	JSlider periodSlider = new JSlider(1, 16);
+	JSlider periodSlider = new JSlider(0, 16);
 	JLabel periodLabel = new JLabel("Period");
 	JTextField periodText = new JTextField();
 

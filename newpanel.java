@@ -5,6 +5,7 @@ import java.io.*;
 import javax.imageio.*;
 
 public class newpanel extends JPanel{
+	
 	//Properties
 	int intPosX = 740;
 	int intVeloX;
@@ -22,6 +23,8 @@ public class newpanel extends JPanel{
 	double dblPeriod = 8; // seconds it takes for a revolution
 	double dblRadius = 25; // every 5 pixels is 1 m
 	double dblForceCentr;
+
+	Rectangle forceRect = new Rectangle(690, 265, 0, 10);
 	
 	//Methods
 	public void paintComponent(Graphics g){
@@ -29,12 +32,18 @@ public class newpanel extends JPanel{
 		int intMass = (int)dblMass / 10;
 		int intRadius = (int)dblRadius * 5;
 		
-		//
-		
 		// The tracer is used to "map" out the movement of the ball
 		int intTracerDiameter = intRadius*2 + intMass/4;
 		int intTracerRadius = intRadius + intMass/8;
 		int intTracerWidth = intMass / 4;
+		
+		Graphics2D g2d = (Graphics2D)g;
+		forceRect.width = intTracerRadius;
+		
+		AffineTransform transform = new AffineTransform();
+		
+		transform.translate(690, 265);
+		
 		
 		Color grey = new Color(247, 242, 242);
 		g.setColor(grey);
@@ -51,12 +60,15 @@ public class newpanel extends JPanel{
 
 		g.setColor(Color.RED);
 		g.fillOval(intPosX - (intMass / 2), intPosY - (intMass / 2), intMass, intMass);
-		g.drawRect(690, 265, intTracerRadius, 10);
 		
-		dblDegrees += 360/(48*dblPeriod);
+		if (dblPeriod != 0){
+			dblDegrees += 360/(48*dblPeriod);
+			intPosY = (int)((dblRadius * 5)*(Math.sin(Math.toRadians(dblDegrees)))+ 270);
+			intPosX = (int)((dblRadius * 5)*(Math.cos(Math.toRadians(dblDegrees)))+ 690);
 		
-		intPosY = (int)((dblRadius * 5)*(Math.sin(Math.toRadians(dblDegrees)))+ 270);
-		intPosX = (int)((dblRadius * 5)*(Math.cos(Math.toRadians(dblDegrees)))+ 690);
+			transform.rotate(Math.toRadians(dblDegrees));
+		}
+		g2d.fill(forceRect);
 
 		//System.out.println("Centripedal force is: " + dblForceCentr);
 		
