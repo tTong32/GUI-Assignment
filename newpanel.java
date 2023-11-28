@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Path2D;
+
 import javax.swing.*;
 import java.awt.image.*;
 import java.io.*;
@@ -25,6 +28,8 @@ public class newpanel extends JPanel{
 	double dblForceCentr;
 
 	Rectangle forceRect = new Rectangle(690, 265, 0, 10);
+	AffineTransform t = new AffineTransform();
+	Shape rForceRect = t.createTransformedShape(forceRect);
 	
 	//Methods
 	public void paintComponent(Graphics g){
@@ -39,11 +44,6 @@ public class newpanel extends JPanel{
 		
 		Graphics2D g2d = (Graphics2D)g;
 		forceRect.width = intTracerRadius;
-		
-		AffineTransform transform = new AffineTransform();
-		
-		transform.translate(690, 265);
-		
 		
 		Color grey = new Color(247, 242, 242);
 		g.setColor(grey);
@@ -60,18 +60,23 @@ public class newpanel extends JPanel{
 
 		g.setColor(Color.RED);
 		g.fillOval(intPosX - (intMass / 2), intPosY - (intMass / 2), intMass, intMass);
+
+		g2d.fill(rForceRect);
 		
 		if (dblPeriod != 0){
 			dblDegrees += 360/(48*dblPeriod);
 			intPosY = (int)((dblRadius * 5)*(Math.sin(Math.toRadians(dblDegrees)))+ 270);
 			intPosX = (int)((dblRadius * 5)*(Math.cos(Math.toRadians(dblDegrees)))+ 690);
-		
-			transform.rotate(Math.toRadians(dblDegrees));
+			//g2d.rotate(Math.toRadians(dblDegrees), 690, 270);
+			t.translate(690, 270);
+			t.rotate(Math.toRadians(dblDegrees));
+			t.translate(-690, -270);
+
+			rForceRect = t.createTransformedShape(forceRect);
 		}
-		g2d.fill(forceRect);
+		
 
 		//System.out.println("Centripedal force is: " + dblForceCentr);
-		
 	}
 }
 
