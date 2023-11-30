@@ -69,7 +69,7 @@ public class newpanel extends JPanel{
 			intPosX = (int)((dblRadius * 5)*(Math.cos(Math.toRadians(dblDegrees)))+ 690);
 			//g2d.rotate(Math.toRadians(dblDegrees), 690, 270);
 			t.translate(690, 270);
-			t.rotate(Math.toRadians(dblDegrees));
+			t.rotate(Math.toRadians(360/(48*dblPeriod)));
 			t.translate(-690, -270);
 
 			rForceRect = t.createTransformedShape(forceRect);
