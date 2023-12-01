@@ -45,7 +45,11 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	
 	JButton pictureButton = new JButton("Form Picture");
 	
-	JLabel testQuestion1Label = new JLabel("1. What is the definition of centripedal force?");
+	String[] questionBox = {"Question 5", "Question 4", "Question 3", "Question 2", "Question 1"};
+	JComboBox questionMenu = new JComboBox(questionBox);
+	
+	int correctAnswers = 0;
+	JLabel testQuestion1Label = new JLabel("1. Centripedal Force is the force that causes an object to move in a circular path.");
 	JButton testQuestion1A = new JButton("True");
 	JButton testQuestion1B = new JButton("False");
 	
@@ -74,6 +78,12 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			theFrame.setContentPane(newTestPanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
+		}if(evt.getSource() == testQuestion1A){
+			correctAnswers++;
+			
+		}if(evt.getSource() == questionMenu){
+		
+			
 		}
 	}
 	public void stateChanged(ChangeEvent evt){
@@ -215,6 +225,10 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		forceLabel.setLocation(30, 310);
 		thePanel.add(forceLabel);
 		
+		questionMenu.setLocation(400, 100);
+		questionMenu.setSize(100, 100);
+		questionMenu.addActionListener(this);
+		newTestPanel.add(questionMenu);
 		testItem.addActionListener(this);
 		testQuestion1Label.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		testQuestion1Label.setSize(400, 200);
