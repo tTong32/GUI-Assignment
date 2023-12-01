@@ -1,5 +1,6 @@
-// Centripdeal Force
 // By Addison and Thomson
+// December 6th, 2023
+// A program designed to graphically show centripetal force, and the effect that certain parameters have on circular motion
 
 import java.io.*;
 import java.awt.*;
@@ -29,20 +30,20 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JMenuItem creditItem = new JMenuItem("Credits");
 	JMenuItem testItem = new JMenuItem("Test");
 	
-	JLabel massLabel = new JLabel("Mass");
+	JLabel massLabel = new JLabel("Mass (kg)");
 	JSlider massSlider = new JSlider(100, 500);
 	JTextField massText = new JTextField();
 	
 	JSlider radiusSlider = new JSlider(0, 50);
-	JLabel radiusLabel = new JLabel("Radius");
+	JLabel radiusLabel = new JLabel("Radius (m)");
 	JTextField radiusText = new JTextField();
 	
 	JSlider periodSlider = new JSlider(0, 16);
-	JLabel periodLabel = new JLabel("Period");
+	JLabel periodLabel = new JLabel("Period (s)");
 	JTextField periodText = new JTextField();
 
-	JSlider forceSlider = new JSlider();
-	JLabel forceLabel = new JLabel("Force");
+	JSlider forceSlider = new JSlider(0, 10000);
+	JLabel forceLabel = new JLabel("Force (πN)");
 	JTextField forceText = new JTextField();
 	
 	JButton pictureButton = new JButton("Form Picture");
@@ -150,19 +151,24 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		if(evt.getSource() == radiusSlider){
 				thePanel.dblRadius = radiusSlider.getValue();
 				System.out.println("The radius is " + thePanel.dblRadius);
-			
         }
         if(evt.getSource() == periodSlider){
+				int previousValue = (int)thePanel.dblPeriod;
 				thePanel.dblPeriod = periodSlider.getValue();
 				System.out.println("The period is " + thePanel.dblPeriod);
+				if (thePanel.dblPeriod != 0){
+					thePanel.dblForceCentr = thePanel.dblForceCentr * (previousValue / (thePanel.dblPeriod));
+					forceSlider.setValue((int)thePanel.dblForceCentr);
+				}
         }
 		if(evt.getSource() == massSlider){
 				thePanel.dblMass = massSlider.getValue();
 				System.out.println("The mass is " + thePanel.dblMass);
         }
         if(evt.getSource() == forceSlider){
-				thePanel.dblForceCentr  = forceSlider.getValue();
+				thePanel.dblForceCentr = forceSlider.getValue();
 				System.out.println("The force is " + thePanel.dblForceCentr); 
+				
         }
 	}
 	public void keyReleased(KeyEvent evt){
@@ -230,8 +236,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		massSlider.setSize(200, 50);
 		massSlider.setLocation(30, 80);
 		thePanel.add(massSlider);
-		massLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
-		massLabel.setSize(200, 200);
+		massLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
+		massLabel.setSize(250, 200);
 		massLabel.setLocation(30, -50);
 		thePanel.add(massLabel);
 		
@@ -246,8 +252,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		radiusSlider.setSize(200, 50);
 		radiusSlider.setLocation(30, 200);
 		thePanel.add(radiusSlider);
-		radiusLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
-		radiusLabel.setSize(200, 200);
+		radiusLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
+		radiusLabel.setSize(250, 200);
 		radiusLabel.setLocation(30, 70);
 		radiusText.setSize(100, 30);
 		thePanel.add(radiusLabel);
@@ -263,8 +269,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		periodSlider.setSize(200, 50);
 		periodSlider.setLocation(30, 320);
 		thePanel.add(periodSlider);
-		periodLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
-		periodLabel.setSize(200, 200);
+		periodLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
+		periodLabel.setSize(250, 200);
 		periodLabel.setLocation(30, 190);
 		thePanel.add(periodLabel);
 
@@ -273,15 +279,16 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		//thePanel.add(velocityText);
 
 		forceSlider.addChangeListener(this);
-		forceSlider.setMajorTickSpacing(25);
-		forceSlider.setMinorTickSpacing(5);
+		forceSlider.setMajorTickSpacing(2500);
+		forceSlider.setMinorTickSpacing(250);
 		forceSlider.setPaintTicks(true);
 		forceSlider.setPaintLabels(true);
 		forceSlider.setSize(200, 50);
+		forceSlider.setValue(1473);
 		forceSlider.setLocation(30, 440);
 		thePanel.add(forceSlider);
-		forceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
-		forceLabel.setSize(200, 200);
+		forceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
+		forceLabel.setSize(300, 200);
 		forceLabel.setLocation(30, 310);
 		thePanel.add(forceLabel);
 
