@@ -16,9 +16,11 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	creditpanel newCreditPanel = new creditpanel();
 	testpanel newTestPanel = new testpanel();
 	
+	int correctAnswers = 0;
 	JLabel helpLabel = new JLabel("Poon");
 	JLabel creditLabel = new JLabel("Poon made this");
 	Timer theTimer = new Timer(1000/48, this);
+	JScrollPane testScroll = new JScrollPane(newTestPanel);
 	
 	JMenuBar menuBar = new JMenuBar();
 	JMenu openMenu = new JMenu("Menu");
@@ -45,13 +47,31 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	
 	JButton pictureButton = new JButton("Form Picture");
 	
-	String[] questionBox = {"Question 5", "Question 4", "Question 3", "Question 2", "Question 1"};
-	JComboBox questionMenu = new JComboBox(questionBox);
+	String[] question1Box = {"a", "b", "c", "d"};
+	JComboBox question1Menu = new JComboBox(question1Box);
+	JLabel testQuestion1Label = new JLabel("1. What is the defintiion of centripedal force?");
+	JLabel testQuestion1AnswerA = new JLabel("a. The force that causes an object to move in a straight line.");
+	JLabel testQuestion1AnswerB = new JLabel("b. The force that causes an object to move in a circular path.");
+	JLabel testQuestion1AnswerC = new JLabel("c. The force of gravity acting on the object.");
+	JLabel testQuestion1AnswerD = new JLabel("d. The force exerted by an object in motion."); 
 	
-	int correctAnswers = 0;
-	JLabel testQuestion1Label = new JLabel("1. Centripedal Force is the force that causes an object to move in a circular path.");
-	JButton testQuestion1A = new JButton("True");
-	JButton testQuestion1B = new JButton("False");
+	String[] question2Box = {"a", "b", "c", "d"};
+	JComboBox question2Menu = new JComboBox(question2Box);
+	JLabel testQuestion2Label = new JLabel("2. Which of the following is a necessary condition for an object to move in a circular path?");
+	JLabel testQuestion2AnswerA = new JLabel("a. Constant speed.");
+	JLabel testQuestion2AnswerB = new JLabel("b. Constant velocity.");
+	JLabel testQuestion2AnswerC = new JLabel("c. Constant acceleration");
+	JLabel testQuestion2AnswerD = new JLabel("d. Constant displacement.");
+	
+	String[] question3Box = {"a", "b", "c", "d"};
+	JComboBox question3Menu = new JComboBox(question3Box);
+	JLabel testQuestion3Label = new JLabel("3. In circular motion, what is the direction of the centripetal force?");
+	JLabel testQuestion3AnswerA = new JLabel("a. Outward from the center of the circle");
+	JLabel testQuestion3AnswerB = new JLabel("b. Tangential to the circle");
+	JLabel testQuestion3AnswerC = new JLabel("c. Radial, toward the center of the circle");
+	JLabel testQuestion3AnswerD = new JLabel("d. Opposite to the direction of motion");
+	
+	JButton finishButton = new JButton("Finish");
 	
 	// Methods
 	public void actionPerformed(ActionEvent evt){
@@ -78,12 +98,52 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			theFrame.setContentPane(newTestPanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
-		}if(evt.getSource() == testQuestion1A){
-			correctAnswers++;
-			
-		}if(evt.getSource() == questionMenu){
-		
-			
+		}if(evt.getSource() == question1Menu){
+			int question1Answer = question1Menu.getSelectedIndex();
+			if(question1Answer==0){
+				System.out.println("Your answer to the question was a");
+			}else if(question1Answer==1){
+				System.out.println("Your answer to the question was b");
+			}else if(question1Answer == 2){
+				System.out.println("Your answer to the question was c");
+			}else if(question1Answer == 3){
+				System.out.println("Your answer to the question was d");
+			}
+		}if(evt.getSource() == question2Menu){
+			int question2Answer = question2Menu.getSelectedIndex();
+			if(question2Answer==0){
+				System.out.println("Your answer to the question was a");
+			}else if(question2Answer==1){
+				System.out.println("Your answer to the question was b");
+			}else if(question2Answer == 2){
+				System.out.println("Your answer to the question was c");
+			}else if(question2Answer == 3){
+				System.out.println("Your answer to the question was d");
+			}
+		}if(evt.getSource() == question3Menu){
+			int question3Answer = question3Menu.getSelectedIndex();
+			if(question3Answer==0){
+				System.out.println("Your answer to the question was a");
+			}else if(question3Answer==1){
+				System.out.println("Your answer to the question was b");
+			}else if(question3Answer == 2){
+				System.out.println("Your answer to the question was c");
+			}else if(question3Answer == 3){
+				System.out.println("Your answer to the question was d");
+			}
+		}if(evt.getSource() == finishButton){
+			int question1Answer = question1Menu.getSelectedIndex();
+			int question2Answer = question2Menu.getSelectedIndex();
+			int question3Answer = question3Menu.getSelectedIndex();
+			if(question1Answer == 1){
+				correctAnswers++;
+			}else if(question2Answer == 2){
+				correctAnswers++;
+			}else if(question3Answer == 3){
+				correctAnswers++;
+			}
+			System.out.println("You have " + correctAnswers +" correct answers.");
+			this.finishButton.setEnabled(false);
 		}
 	}
 	public void stateChanged(ChangeEvent evt){
@@ -224,24 +284,90 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		forceLabel.setSize(200, 200);
 		forceLabel.setLocation(30, 310);
 		thePanel.add(forceLabel);
-		
-		questionMenu.setLocation(400, 100);
-		questionMenu.setSize(100, 100);
-		questionMenu.addActionListener(this);
-		newTestPanel.add(questionMenu);
+
+		newTestPanel.add(question1Menu);
+		newTestPanel.add(question2Menu);
+		newTestPanel.add(question3Menu);
 		testItem.addActionListener(this);
+		
+				
+		question1Menu.setLocation(400, 35);
+		question1Menu.setSize(50, 25);
+		question1Menu.addActionListener(this);
 		testQuestion1Label.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		testQuestion1Label.setSize(400, 200);
 		testQuestion1Label.setLocation(10,-50);
 		newTestPanel.add(testQuestion1Label);
-		testQuestion1A.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-		testQuestion1A.setSize(100, 50);
-		testQuestion1A.setLocation(10, 80);
-		newTestPanel.add(testQuestion1A);
-		testQuestion1B.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-		testQuestion1B.setSize(100, 50);
-		testQuestion1B.setLocation(160, 80);
-		newTestPanel.add(testQuestion1B);
+		testQuestion1AnswerA.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		testQuestion1AnswerA.setSize(450, 50);
+		testQuestion1AnswerA.setLocation(10, 50);
+		newTestPanel.add(testQuestion1AnswerA);
+		testQuestion1AnswerB.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		testQuestion1AnswerB.setSize(450, 50);
+		testQuestion1AnswerB.setLocation(10, 75);
+		newTestPanel.add(testQuestion1AnswerB);
+		testQuestion1AnswerC.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		testQuestion1AnswerC.setSize(450, 50);
+		testQuestion1AnswerC.setLocation(10, 100);
+		newTestPanel.add(testQuestion1AnswerC);
+		testQuestion1AnswerD.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		testQuestion1AnswerD.setSize(450, 50);
+		testQuestion1AnswerD.setLocation(10, 125);
+		newTestPanel.add(testQuestion1AnswerD);
+		
+		question2Menu.setLocation(750, 190);
+		question2Menu.setSize(50, 25);
+		question2Menu.addActionListener(this);
+		testQuestion2Label.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		testQuestion2Label.setSize(900, 200);
+		testQuestion2Label.setLocation(10,100);
+		newTestPanel.add(testQuestion2Label);
+		testQuestion2AnswerA.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		testQuestion2AnswerA.setSize(450, 50);
+		testQuestion2AnswerA.setLocation(10, 200);
+		newTestPanel.add(testQuestion2AnswerA);
+		testQuestion2AnswerB.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		testQuestion2AnswerB.setSize(450, 50);
+		testQuestion2AnswerB.setLocation(10, 225);
+		newTestPanel.add(testQuestion2AnswerB);
+		testQuestion2AnswerC.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		testQuestion2AnswerC.setSize(450, 50);
+		testQuestion2AnswerC.setLocation(10, 250);
+		newTestPanel.add(testQuestion2AnswerC);
+		testQuestion2AnswerD.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		testQuestion2AnswerD.setSize(450, 50);
+		testQuestion2AnswerD.setLocation(10, 275);
+		newTestPanel.add(testQuestion2AnswerD);
+		
+		question3Menu.setLocation(550, 340);
+		question3Menu.setSize(50, 25);
+		question3Menu.addActionListener(this);
+		testQuestion3Label.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		testQuestion3Label.setSize(900, 200);
+		testQuestion3Label.setLocation(10,250);
+		newTestPanel.add(testQuestion3Label);
+		testQuestion3AnswerA.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		testQuestion3AnswerA.setSize(450, 50);
+		testQuestion3AnswerA.setLocation(10, 350);
+		newTestPanel.add(testQuestion3AnswerA);
+		testQuestion3AnswerB.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		testQuestion3AnswerB.setSize(450, 50);
+		testQuestion3AnswerB.setLocation(10, 375);
+		newTestPanel.add(testQuestion3AnswerB);
+		testQuestion3AnswerC.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		testQuestion3AnswerC.setSize(450, 50);
+		testQuestion3AnswerC.setLocation(10, 400);
+		newTestPanel.add(testQuestion3AnswerC);
+		testQuestion3AnswerD.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		testQuestion3AnswerD.setSize(450, 50);
+		testQuestion3AnswerD.setLocation(10, 425);
+		newTestPanel.add(testQuestion3AnswerD);
+		
+		finishButton.addActionListener(this);
+		finishButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		finishButton.setSize(100, 20);
+		finishButton.setLocation(850, 450);
+		newTestPanel.add(finishButton);
 		/*
 		pictureButton.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 		pictureButton.setSize(300, 70);
