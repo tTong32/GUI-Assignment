@@ -102,7 +102,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
         }
         if(evt.getSource() == forceSlider){
 				thePanel.dblForceCentr  = forceSlider.getValue();
-				System.out.println("The velocity is " + thePanel.dblForceCentr); 
+				System.out.println("The force is " + thePanel.dblForceCentr); 
         }
 	}
 	public void keyReleased(KeyEvent evt){
