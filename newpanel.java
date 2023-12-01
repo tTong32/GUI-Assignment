@@ -25,7 +25,7 @@ public class newpanel extends JPanel{
 	double dblMass = 300; // in kg
 	double dblPeriod = 8; // seconds it takes for a revolution
 	double dblRadius = 25; // every 5 pixels is 1 m
-	double dblForceCentr;
+	double dblForceCentr = 1473; // in pi N
 
 	Rectangle forceRect = new Rectangle(690, 265, 0, 10);
 	AffineTransform t = new AffineTransform();
@@ -44,6 +44,8 @@ public class newpanel extends JPanel{
 		
 		Graphics2D g2d = (Graphics2D)g;
 		forceRect.width = intTracerRadius;
+		forceRect.height = (int)dblForceCentr/250;
+		forceRect.y = (int)(270 - dblForceCentr/500);
 		
 		Color grey = new Color(247, 242, 242);
 		g.setColor(grey);
@@ -73,7 +75,7 @@ public class newpanel extends JPanel{
 			t.translate(-690, -270);
 
 			rForceRect = t.createTransformedShape(forceRect);
-		}
+		} 
 		
 
 		//System.out.println("Centripedal force is: " + dblForceCentr);
