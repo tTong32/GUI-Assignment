@@ -25,7 +25,7 @@ public class newpanel extends JPanel{
 	double dblMass = 300; // in kg
 	double dblPeriod = 8; // seconds it takes for a revolution
 	double dblRadius = 25; // every 5 pixels is 1 m
-	double dblForceCentr = 1473; // in pi N
+	double dblForceCentr; // in pi N
 
 	Rectangle forceRect = new Rectangle(690, 265, 0, 10);
 	AffineTransform t = new AffineTransform();
@@ -41,11 +41,23 @@ public class newpanel extends JPanel{
 		int intTracerDiameter = intRadius*2 + intMass/4;
 		int intTracerRadius = intRadius + intMass/8;
 		int intTracerWidth = intMass / 4;
+
+		if (dblPeriod == 0){
+			dblForceCentr = 0;
+		} else {
+			dblForceCentr = (4*dblMass*dblRadius) / (dblPeriod*dblPeriod);
+		}
 		
 		Graphics2D g2d = (Graphics2D)g;
-		forceRect.width = intTracerRadius;
-		forceRect.height = (int)dblForceCentr/250;
-		forceRect.y = (int)(270 - dblForceCentr/500);
+		if (dblForceCentr < 200 && dblPeriod != 0){
+			forceRect.height = 1;
+			forceRect.width = intTracerRadius;
+		} else {
+			forceRect.width = intTracerRadius;
+			forceRect.height = (int)dblForceCentr/150;
+			forceRect.y = (int)(270 - dblForceCentr/300);
+		}
+			
 		
 		Color grey = new Color(247, 242, 242);
 		g.setColor(grey);

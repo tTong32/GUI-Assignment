@@ -42,10 +42,12 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JLabel periodLabel = new JLabel("Period (s)");
 	JTextField periodText = new JTextField();
 
-	JSlider forceSlider = new JSlider(0, 10000);
+	JSlider forceSlider = new JSlider(0, 100000);
 	JLabel forceLabel = new JLabel("Force (πN)");
 	JTextField forceText = new JTextField();
 	
+	boolean blnChangeForce = true;
+
 	JButton pictureButton = new JButton("Form Picture");
 	
 	String[] question1Box = {"a", "b", "c", "d"};
@@ -77,7 +79,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	// Methods
 	public void actionPerformed(ActionEvent evt){
 		if (evt.getSource() == theTimer){
-				thePanel.repaint();
+			forceSlider.setValue((int)thePanel.dblForceCentr);
+			thePanel.repaint();
 		}
 		if(evt.getSource() == helpItem){
 			theFrame.setVisible(false);
@@ -149,26 +152,26 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	}
 	public void stateChanged(ChangeEvent evt){
 		if(evt.getSource() == radiusSlider){
-				thePanel.dblRadius = radiusSlider.getValue();
-				System.out.println("The radius is " + thePanel.dblRadius);
+			blnChangeForce = false;
+			thePanel.dblRadius = radiusSlider.getValue();
+			System.out.println("The radius is " + thePanel.dblRadius);
+			blnChangeForce = true;
         }
         if(evt.getSource() == periodSlider){
-				int previousValue = (int)thePanel.dblPeriod;
-				thePanel.dblPeriod = periodSlider.getValue();
-				System.out.println("The period is " + thePanel.dblPeriod);
-				if (thePanel.dblPeriod != 0){
-					thePanel.dblForceCentr = thePanel.dblForceCentr * (previousValue / (thePanel.dblPeriod));
-					forceSlider.setValue((int)thePanel.dblForceCentr);
-				}
+			thePanel.dblPeriod = periodSlider.getValue();
+			System.out.println("The period is " + thePanel.dblPeriod);
         }
 		if(evt.getSource() == massSlider){
-				thePanel.dblMass = massSlider.getValue();
-				System.out.println("The mass is " + thePanel.dblMass);
+			thePanel.dblMass = massSlider.getValue();
+			System.out.println("The mass is " + thePanel.dblMass);
         }
         if(evt.getSource() == forceSlider){
+			if (blnChangeForce == true){
 				thePanel.dblForceCentr = forceSlider.getValue();
-				System.out.println("The force is " + thePanel.dblForceCentr); 
-				
+				System.out.println("The force is " + thePanel.dblForceCentr);
+			}
+			 
+			
         }
 	}
 	public void keyReleased(KeyEvent evt){
@@ -279,8 +282,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		//thePanel.add(velocityText);
 
 		forceSlider.addChangeListener(this);
-		forceSlider.setMajorTickSpacing(2500);
-		forceSlider.setMinorTickSpacing(250);
+		forceSlider.setMajorTickSpacing(25000);
+		forceSlider.setMinorTickSpacing(2500);
 		forceSlider.setPaintTicks(true);
 		forceSlider.setPaintLabels(true);
 		forceSlider.setSize(200, 50);
