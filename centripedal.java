@@ -149,7 +149,6 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		
 		if(evt.getSource() == massText){
 			System.out.println("mass");
-			
 		}
 		if (evt.getSource() == periodText){
 			System.out.println("Period");
