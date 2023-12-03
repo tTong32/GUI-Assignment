@@ -45,8 +45,6 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JSlider forceSlider = new JSlider(0, 100000);
 	JLabel forceLabel = new JLabel("Force (πN)");
 	JTextField forceText = new JTextField();
-	
-	boolean blnChangeForce = true;
 
 	JButton pictureButton = new JButton("Form Picture");
 	
@@ -151,27 +149,32 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		}
 	}
 	public void stateChanged(ChangeEvent evt){
+		if(evt.getSource() == massSlider){
+			thePanel.dblMass = massSlider.getValue();
+			System.out.println("The mass is " + thePanel.dblMass);
+        } 
 		if(evt.getSource() == radiusSlider){
-			blnChangeForce = false;
 			thePanel.dblRadius = radiusSlider.getValue();
 			System.out.println("The radius is " + thePanel.dblRadius);
-			blnChangeForce = true;
         }
         if(evt.getSource() == periodSlider){
 			thePanel.dblPeriod = periodSlider.getValue();
 			System.out.println("The period is " + thePanel.dblPeriod);
         }
-		if(evt.getSource() == massSlider){
-			thePanel.dblMass = massSlider.getValue();
-			System.out.println("The mass is " + thePanel.dblMass);
-        }
-        if(evt.getSource() == forceSlider){
-			if (blnChangeForce == true){
-				thePanel.dblForceCentr = forceSlider.getValue();
-				System.out.println("The force is " + thePanel.dblForceCentr);
+		if(evt.getSource() == forceSlider){
+			thePanel.dblForceCentr = forceSlider.getValue();
+			System.out.println("The force is " + thePanel.dblForceCentr);
+			System.out.println(forceSlider.getValueIsAdjusting());
+			if(forceSlider.getValueIsAdjusting() == true){
+				switch ((int)(Math.random() * 3) + 1){
+					case 1:
+						System.out.println("Adjusting Mass");
+					case 2:
+						System.out.println("Adjusting Radius");
+					case 3: 
+						System.out.println("Adjusting Period");
+				}
 			}
-			 
-			
         }
 	}
 	public void keyReleased(KeyEvent evt){
