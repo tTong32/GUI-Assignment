@@ -207,7 +207,6 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			errorFrame.setResizable(false);
 			errorFrame.setVisible(true);
 		}
-
 	}
 	
 	public void stateChanged(ChangeEvent evt){
