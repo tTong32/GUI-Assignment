@@ -81,6 +81,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		if (evt.getSource() == theTimer){
 			forceSlider.setValue((int)thePanel.dblForceCentr);
 			thePanel.repaint();
+			System.out.println(blnForceTextChange);
 		}
 		if(evt.getSource() == helpItem){
 			theFrame.setVisible(false);
@@ -229,9 +230,22 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		if(evt.getSource() == forceSlider){
 			thePanel.dblForceCentr = forceSlider.getValue();
 			System.out.println("The force is " + thePanel.dblForceCentr);
-			if(forceSlider.getValueIsAdjusting() == true){
+			if(forceSlider.getValue() == 0){
+				intChangeSlider = (int)(Math.random() * 3) + 1;
+				switch (intChangeSlider){
+					case 1:
+						thePanel.dblMass = 0;
+						massSlider.setValue(0);
+					case 2:
+						thePanel.dblPeriod = 0;
+						periodSlider.setValue(0);
+					case 3:
+						thePanel.dblRadius = 0;
+						radiusSlider.setValue(0);
+				}
+			} else if(forceSlider.getValueIsAdjusting() == true){
 				System.out.println("yes");
-				intChangeSlider = 1;
+				intChangeSlider = (int)(Math.random() * 3) + 1;
 				switch (intChangeSlider){
 					case 1:
 						changeSlider("mass", thePanel.dblMass, massSlider, "radius", thePanel.dblRadius, radiusSlider, "period", thePanel.dblPeriod, periodSlider, intSecondaryChange);
@@ -256,12 +270,12 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	public void mouseEntered(MouseEvent evt){
 	}
 	public void mouseReleased(MouseEvent evt){
-		System.out.println("IM GAYYYU");
+		System.out.println("releasing");
 	}
 	public void mouseClicked(MouseEvent evt){
 	}
 	public void mousePressed(MouseEvent evt){
-		System.out.println("hello");
+		System.out.println("pressing");
 	}
 	
 	public void mouseMoved(MouseEvent evt){
