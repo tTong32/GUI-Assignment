@@ -21,6 +21,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JLabel creditLabel = new JLabel("Poon made this");
 	Timer theTimer = new Timer(1000/48, this);
 	JScrollPane testScroll = new JScrollPane(newTestPanel);
+	String strCorrectAnswers = "";
+	JLabel answersLabel = new JLabel();
 	
 	JMenuBar menuBar = new JMenuBar();
 	JMenu openMenu = new JMenu("Menu");
@@ -155,9 +157,11 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 				correctAnswers++;
 			}else if(question2Answer == 2){
 				correctAnswers++;
-			}else if(question3Answer == 3){
+			}else if(question3Answer == 2){
 				correctAnswers++;
 			}
+			strCorrectAnswers = Integer.toString(correctAnswers);
+			answersLabel.setText("You got " + strCorrectAnswers + " correct answers.");
 			System.out.println("You have " + correctAnswers +" correct answers.");
 			this.finishButton.setEnabled(false);
 		}
@@ -575,6 +579,10 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		finishButton.setSize(100, 20);
 		finishButton.setLocation(850, 450);
 		newTestPanel.add(finishButton);
+		answersLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		answersLabel.setLocation(725, 500);
+		answersLabel.setSize(250, 20);
+		newTestPanel.add(answersLabel);
 		
 		fcLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		fcLabel.setSize(100,100);
