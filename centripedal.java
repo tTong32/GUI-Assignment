@@ -7,7 +7,6 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.*;
-import java.awt.Font;
 
 public class centripedal implements ActionListener, KeyListener, MouseListener, MouseMotionListener, ChangeListener{
 	// Properties
@@ -43,10 +42,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JTextField periodText = new JTextField();
 
 	JSlider forceSlider = new JSlider(0, 100000);
-	JLabel forceLabel = new JLabel("Force (πN)");
+	JLabel forceLabel = new JLabel("Force (π^2N)");
 	JTextField forceText = new JTextField();
-
-	JButton pictureButton = new JButton("Form Picture");
 	
 	String[] question1Box = {"a", "b", "c", "d"};
 	JComboBox question1Menu = new JComboBox(question1Box);
@@ -73,6 +70,11 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JLabel testQuestion3AnswerD = new JLabel("d. Opposite to the direction of motion");
 	
 	JButton finishButton = new JButton("Finish");
+
+	boolean blnForceTextChange = false;
+	boolean blnMousePressed = false;
+	int intChangeSlider;
+	int intSecondaryChange;
 	
 	// Methods
 	public void actionPerformed(ActionEvent evt){
@@ -147,34 +149,99 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			System.out.println("You have " + correctAnswers +" correct answers.");
 			this.finishButton.setEnabled(false);
 		}
+		
+		try{
+			if(evt.getSource() == massText){
+				massSlider.setValue(Integer.parseInt(massText.getText()));
+				if(Integer.parseInt(massText.getText()) < 100){
+					massText.setText("100");
+				} else if (Integer.parseInt(massText.getText()) > 500){
+					massText.setText("500");
+				}
+				forceText.setText(Integer.toString((int)(thePanel.dblForceCentr)));
+			}
+			if (evt.getSource() == periodText){
+				periodSlider.setValue(Integer.parseInt(periodText.getText()));
+				if(Integer.parseInt(periodText.getText()) < 0){
+					periodText.setText("0");
+				} else if (Integer.parseInt(periodText.getText()) > 16){
+					periodText.setText("16");
+				}
+				forceText.setText(Integer.toString((int)(thePanel.dblForceCentr)));
+			} 
+			if (evt.getSource() == radiusText){
+				radiusSlider.setValue(Integer.parseInt(radiusText.getText()));
+				if(Integer.parseInt(radiusText.getText()) < 0){
+					radiusText.setText("0");
+				} else if (Integer.parseInt(radiusText.getText()) > 50){
+					radiusText.setText("50");
+				}
+				forceText.setText(Integer.toString((int)(thePanel.dblForceCentr)));
+			}
+			if (evt.getSource() == forceText){
+				blnForceTextChange = true;
+				forceSlider.setValue(Integer.parseInt(forceText.getText()));
+				if(Integer.parseInt(forceText.getText()) < 0){
+					forceText.setText("0");
+				} else if(Integer.parseInt(forceText.getText()) > 100000){
+					forceText.setText("100000");
+				}
+			}			
+		} catch (NumberFormatException e){
+			JFrame errorFrame = new JFrame("Error Message");
+			JPanel errorPanel = new JPanel();
+			JLabel errorLabel = new JLabel("Error: Please enter a number");
+
+			errorLabel.setSize(300, 50);
+			errorLabel.setLocation(10, 0);
+			errorLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+			errorPanel.setLayout(null);
+			errorPanel.setPreferredSize(new Dimension(250,50));
+			errorPanel.add(errorLabel);
+
+			errorFrame.setContentPane(errorPanel);
+			errorFrame.pack();
+			errorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			errorFrame.setLocationRelativeTo(theFrame);
+			errorFrame.setResizable(false);
+			errorFrame.setVisible(true);
+		}
 	}
+	
 	public void stateChanged(ChangeEvent evt){
 		if(evt.getSource() == massSlider){
 			thePanel.dblMass = massSlider.getValue();
+			System.out.println("change");
 			System.out.println("The mass is " + thePanel.dblMass);
+			massText.setText(Integer.toString((int)thePanel.dblMass));
         } 
 		if(evt.getSource() == radiusSlider){
 			thePanel.dblRadius = radiusSlider.getValue();
 			System.out.println("The radius is " + thePanel.dblRadius);
+			radiusText.setText(Integer.toString((int)thePanel.dblRadius));
         }
         if(evt.getSource() == periodSlider){
 			thePanel.dblPeriod = periodSlider.getValue();
 			System.out.println("The period is " + thePanel.dblPeriod);
+			periodText.setText(Integer.toString((int)thePanel.dblPeriod));
         }
 		if(evt.getSource() == forceSlider){
 			thePanel.dblForceCentr = forceSlider.getValue();
 			System.out.println("The force is " + thePanel.dblForceCentr);
-			System.out.println(forceSlider.getValueIsAdjusting());
 			if(forceSlider.getValueIsAdjusting() == true){
-				switch ((int)(Math.random() * 3) + 1){
+				System.out.println("yes");
+				intChangeSlider = 1;
+				switch (intChangeSlider){
 					case 1:
-						System.out.println("Adjusting Mass");
+						changeSlider("mass", thePanel.dblMass, massSlider, "radius", thePanel.dblRadius, radiusSlider, "period", thePanel.dblPeriod, periodSlider, intSecondaryChange);
 					case 2:
-						System.out.println("Adjusting Radius");
-					case 3: 
-						System.out.println("Adjusting Period");
+						changeSlider("radius", thePanel.dblRadius, radiusSlider, "mass", thePanel.dblMass, massSlider, "period", thePanel.dblPeriod, periodSlider, intSecondaryChange);
+					case 3:
+						changeSlider("period", thePanel.dblPeriod, periodSlider, "mass", thePanel.dblMass, massSlider, "radius", thePanel.dblRadius, radiusSlider, intSecondaryChange);
 				}
 			}
+			forceText.setText(Integer.toString((int)thePanel.dblForceCentr));
         }
 	}
 	public void keyReleased(KeyEvent evt){
@@ -189,17 +256,105 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	public void mouseEntered(MouseEvent evt){
 	}
 	public void mouseReleased(MouseEvent evt){
+		System.out.println("IM GAYYYU");
 	}
 	public void mouseClicked(MouseEvent evt){
 	}
 	public void mousePressed(MouseEvent evt){
+		System.out.println("hello");
 	}
 	
 	public void mouseMoved(MouseEvent evt){
 	}
 	public void mouseDragged(MouseEvent evt){
 	}
-	
+
+	public double equations(String strValue, double dblValue){
+		if (strValue.equals("mass")){
+			dblValue = (thePanel.dblForceCentr*thePanel.dblPeriod*thePanel.dblPeriod)/(4*thePanel.dblRadius);
+		} else if (strValue.equals("radius")){
+			dblValue = (thePanel.dblForceCentr*thePanel.dblPeriod*thePanel.dblPeriod)/(4*thePanel.dblMass);
+		} else if (strValue.equals("period")){
+			dblValue = Math.sqrt(thePanel.dblForceCentr/(4*thePanel.dblMass*thePanel.dblRadius));
+		} else if (strValue.equals("force")){
+			dblValue = (4*thePanel.dblMass*thePanel.dblRadius) / (thePanel.dblPeriod*thePanel.dblPeriod);
+		} 
+		return dblValue;
+	}
+
+	public int defineLowerBound(String strValue){
+		int intLowerBound = 0;
+		if (strValue.equals("mass")){
+			intLowerBound = 100;
+		} else if (strValue.equals("radius") || strValue.equals("period")){
+			intLowerBound = 1;
+		}
+		return intLowerBound;
+	}
+	public int defineUpperBound(String strValue){
+		int intUpperBound = 0;
+		if (strValue.equals("mass")){
+			intUpperBound = 500;
+		} else if (strValue.equals("radius")){
+			intUpperBound = 50;
+		} else if (strValue.equals("period")){
+			intUpperBound = 16;
+		}
+		return intUpperBound;
+	}
+
+	public void changeSlider(String strValue1, double dblValue1, JSlider value1Slider, String strValue2, double dblValue2, JSlider value2Slider, String strValue3, double dblValue3, JSlider value3Slider, int intSecondaryChange){
+		dblValue1 = equations(strValue1, dblValue1);
+		if (dblValue1 > defineUpperBound(strValue1)){
+			dblValue1 = defineUpperBound(strValue1);
+			switch(intSecondaryChange){
+				case 1:
+					dblValue2 = equations(strValue2, dblValue2);
+					if (dblValue2 > defineUpperBound(strValue2)){
+						dblValue2 = defineUpperBound(strValue2);
+						dblValue3 = equations(strValue3, dblValue3);
+					} else if (dblValue2 < defineLowerBound(strValue2)){
+						dblValue2 = defineLowerBound(strValue2);
+						dblValue3 = equations(strValue3, dblValue3);
+					}
+				case 2:
+					dblValue3 = equations(strValue3, dblValue3);
+					if (dblValue3 > defineUpperBound(strValue3)){
+						dblValue3 = defineUpperBound(strValue3);
+						dblValue2 = equations(strValue2, dblValue2);
+					} else if (dblValue3 < defineLowerBound(strValue3)){
+						dblValue3 = defineLowerBound(strValue3);
+						dblValue2 = equations(strValue2, dblValue2);
+					}
+			}
+		} else if (dblValue1 < defineLowerBound(strValue1)){
+			dblValue1 = defineLowerBound(strValue1);
+			switch(intSecondaryChange){
+				case 1:
+					dblValue2 = equations(strValue2, dblValue2);
+					if (dblValue2 > defineUpperBound(strValue2)){
+						dblValue2 = defineUpperBound(strValue2);
+						dblValue3 = equations(strValue3, dblValue3);
+					} else if (dblValue2 < defineLowerBound(strValue2)){
+						dblValue2 = defineLowerBound(strValue2);
+						dblValue3 = equations(strValue3, dblValue3);
+					}
+				case 2:
+					dblValue3 = equations(strValue3, dblValue3);
+					if (dblValue3 > defineUpperBound(strValue3)){
+						dblValue3 = defineUpperBound(strValue3);
+						dblValue2 = equations(strValue2, dblValue2);
+					} else if (dblValue3 < defineLowerBound(strValue3)){
+						dblValue3 = defineLowerBound(strValue3);
+						dblValue2 = equations(strValue2, dblValue2);
+					}
+			}
+		}
+		value1Slider.setValue((int)dblValue1);
+		value2Slider.setValue((int)dblValue2);
+		value3Slider.setValue((int)dblValue3);
+	}
+
 	// Constructor
 	public centripedal(){
 		thePanel.setLayout(null);
@@ -230,10 +385,9 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		newHelpPanel.add(helpLabel);
 		
 		homeItem.addActionListener(this);
-		
-		//massText.setSize(100, 30);
-		//massText.setLocation(100,20);
-		//thePanel.add(massText);
+
+		thePanel.addMouseListener(this);
+
 		massSlider.addChangeListener(this);
 		massSlider.setMajorTickSpacing(100);
 		massSlider.setMinorTickSpacing(25);
@@ -246,10 +400,12 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		massLabel.setSize(250, 200);
 		massLabel.setLocation(30, -50);
 		thePanel.add(massLabel);
+		massText.setSize(120,40);
+		massText.setLocation(250, 60);
+		massText.addActionListener(this);
+		massText.setText("300");
+		thePanel.add(massText);
 		
-		//radiusText.setSize(100, 30);
-		//radiusText.setLocation(100,120);
-		//thePanel.add(radiusText);
 		radiusSlider.addChangeListener(this);
 		radiusSlider.setMajorTickSpacing(10);
 		radiusSlider.setMinorTickSpacing(5);
@@ -263,10 +419,12 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		radiusLabel.setLocation(30, 70);
 		radiusText.setSize(100, 30);
 		thePanel.add(radiusLabel);
+		radiusText.setSize(120,40);
+		radiusText.setLocation(250, 180);
+		radiusText.addActionListener(this);
+		radiusText.setText("25");
+		thePanel.add(radiusText);
 		
-		//periodText.setSize(100, 30);
-		//periodText.setLocation(100, 170);
-		//thePanel.add(periodText);
 		periodSlider.addChangeListener(this);
 		periodSlider.setMajorTickSpacing(2);
 		periodSlider.setMinorTickSpacing(1);
@@ -279,11 +437,12 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		periodLabel.setSize(250, 200);
 		periodLabel.setLocation(30, 190);
 		thePanel.add(periodLabel);
-
-		//velocityText.setSize(100, 30);
-		//velocityText.setLocation(100,70);
-		//thePanel.add(velocityText);
-
+		periodText.setSize(120,40);
+		periodText.setText("8");
+		periodText.addActionListener(this);
+		periodText.setLocation(250, 300);
+		thePanel.add(periodText);
+		
 		forceSlider.addChangeListener(this);
 		forceSlider.setMajorTickSpacing(25000);
 		forceSlider.setMinorTickSpacing(2500);
@@ -297,7 +456,12 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		forceLabel.setSize(300, 200);
 		forceLabel.setLocation(30, 310);
 		thePanel.add(forceLabel);
-
+		forceText.setSize(120,40);
+		forceText.setLocation(250, 420);
+		forceText.addActionListener(this);
+		forceText.setText(Integer.toString((int)thePanel.dblForceCentr));
+		thePanel.add(forceText);
+		
 		newTestPanel.add(question1Menu);
 		newTestPanel.add(question2Menu);
 		newTestPanel.add(question3Menu);
@@ -381,13 +545,6 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		finishButton.setSize(100, 20);
 		finishButton.setLocation(850, 450);
 		newTestPanel.add(finishButton);
-		/*
-		pictureButton.setFont(new Font("Times New Roman", Font.PLAIN, 30));
-		pictureButton.setSize(300, 70);
-		pictureButton.setLocation(30, 450);
-		pictureButton.addActionListener(this);
-		thePanel.add(pictureButton);
-		*/
 		
 		theFrame.setContentPane(thePanel);
 		theFrame.pack();
