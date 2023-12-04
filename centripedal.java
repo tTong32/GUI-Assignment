@@ -49,11 +49,11 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	
 	String[] question1Box = {"a", "b", "c", "d"};
 	JComboBox question1Menu = new JComboBox(question1Box);
-	JLabel testQuestion1Label = new JLabel("1. What is the defintiion of centripedal force?");
-	JLabel testQuestion1AnswerA = new JLabel("a. The force that causes an object to move in a straight line.");
-	JLabel testQuestion1AnswerB = new JLabel("b. The force that causes an object to move in a circular path.");
-	JLabel testQuestion1AnswerC = new JLabel("c. The force of gravity acting on the object.");
-	JLabel testQuestion1AnswerD = new JLabel("d. The force exerted by an object in motion."); 
+	JLabel testQuestion1Label = new JLabel("1. What is the observed relationship between force and period?");
+	JLabel testQuestion1AnswerA = new JLabel("a. Force is indirectly proportional to period");
+	JLabel testQuestion1AnswerB = new JLabel("b. Force is directly proportional to period");
+	JLabel testQuestion1AnswerC = new JLabel("c. Force is directly proportional to period cubed");
+	JLabel testQuestion1AnswerD = new JLabel("d. Force is indirectly proportional to period squared."); 
 	
 	String[] question2Box = {"a", "b", "c", "d"};
 	JComboBox question2Menu = new JComboBox(question2Box);
@@ -153,7 +153,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			int question1Answer = question1Menu.getSelectedIndex();
 			int question2Answer = question2Menu.getSelectedIndex();
 			int question3Answer = question3Menu.getSelectedIndex();
-			if(question1Answer == 1){
+			if(question1Answer == 3){
 				correctAnswers++;
 			}else if(question2Answer == 2){
 				correctAnswers++;
@@ -525,7 +525,6 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		newTestPanel.add(question2Menu);
 		newTestPanel.add(question3Menu);
 		testItem.addActionListener(this);
-		
 				
 		question1Menu.setLocation(400, 35);
 		question1Menu.setSize(50, 25);
