@@ -39,11 +39,11 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JLabel radiusLabel = new JLabel("Radius (m)");
 	JTextField radiusText = new JTextField();
 	
-	JSlider periodSlider = new JSlider(0, 16);
+	JSlider periodSlider = new JSlider(0, 160);
 	JLabel periodLabel = new JLabel("Period (s)");
 	JTextField periodText = new JTextField();
 
-	JSlider forceSlider = new JSlider(0, 100000);
+	JSlider forceSlider = new JSlider(0, 10000000);
 	JLabel forceLabel = new JLabel("Force (π^2N)");
 	JTextField forceText = new JTextField();
 	
@@ -177,11 +177,11 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 				forceText.setText(Integer.toString((int)(thePanel.dblForceCentr)));
 			}
 			if (evt.getSource() == periodText){
-				periodSlider.setValue(Integer.parseInt(periodText.getText()));
-				if(Integer.parseInt(periodText.getText()) < 0){
-					periodText.setText("0");
-				} else if (Integer.parseInt(periodText.getText()) > 16){
-					periodText.setText("16");
+				periodSlider.setValue((int)(Double.parseDouble(periodText.getText()) * 10));
+				if(Double.parseDouble(periodText.getText()) < 0){
+					periodText.setText("0.0");
+				} else if (Double.parseDouble(periodText.getText()) > 16){
+					periodText.setText("16.0");
 				}
 				forceText.setText(Integer.toString((int)(thePanel.dblForceCentr)));
 			} 
@@ -200,8 +200,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 				forceSlider.setValue(Integer.parseInt(forceText.getText()));
 				if(Integer.parseInt(forceText.getText()) < 0){
 					forceText.setText("0");
-				} else if(Integer.parseInt(forceText.getText()) > 100000){
-					forceText.setText("100000");
+				} else if(Integer.parseInt(forceText.getText()) > 10000000){
+					forceText.setText("10000000");
 				}
 			}			
 		} catch (NumberFormatException e){
@@ -240,10 +240,10 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			radiusText.setText(Integer.toString((int)thePanel.dblRadius));
         }
         if(evt.getSource() == periodSlider){
-			thePanel.dblPeriod = periodSlider.getValue();
+			thePanel.dblPeriod = Double.valueOf(periodSlider.getValue())/10;
 			System.out.println("period sliderChange");
 			System.out.println("The period is " + thePanel.dblPeriod);
-			periodText.setText(Integer.toString((int)thePanel.dblPeriod));
+			periodText.setText(Double.toString(thePanel.dblPeriod));
         }
 		if(evt.getSource() == forceSlider){
 			thePanel.dblForceCentr = forceSlider.getValue();
@@ -316,14 +316,16 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		return dblValue;
 	}
 
-	public int defineLowerBound(String strValue){
-		int intLowerBound = 0;
+	public double defineLowerBound(String strValue){
+		double dblLowerBound = 0;
 		if (strValue.equals("mass")){
-			intLowerBound = 100;
-		} else if (strValue.equals("radius") || strValue.equals("period")){
-			intLowerBound = 1;
+			dblLowerBound = 100;
+		} else if (strValue.equals("radius")){
+			dblLowerBound = 1;
+		} else if (strValue.equals("period")){
+			dblLowerBound = 0.1;
 		}
-		return intLowerBound;
+		return dblLowerBound;
 	}
 	public int defineUpperBound(String strValue){
 		int intUpperBound = 0;
@@ -460,31 +462,54 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		thePanel.add(radiusText);
 		
 		periodSlider.addChangeListener(this);
-		periodSlider.setMajorTickSpacing(2);
-		periodSlider.setMinorTickSpacing(1);
+		periodSlider.setMajorTickSpacing(200);
+		periodSlider.setMinorTickSpacing(100);
 		periodSlider.setPaintTicks(true);
 		periodSlider.setPaintLabels(true);
+
+		java.util.Hashtable<Integer,JLabel> periodLabelTable = new java.util.Hashtable<Integer,JLabel>();
+		periodLabelTable.put(160, new JLabel("16"));
+		periodLabelTable.put(140, new JLabel("14"));
+		periodLabelTable.put(120, new JLabel("12"));
+		periodLabelTable.put(100, new JLabel("10"));
+		periodLabelTable.put(80, new JLabel("8"));
+		periodLabelTable.put(60, new JLabel("6"));
+		periodLabelTable.put(40, new JLabel("4"));
+		periodLabelTable.put(20, new JLabel("2"));
+		periodLabelTable.put(0, new JLabel("0"));
+		periodSlider.setLabelTable(periodLabelTable);
+
 		periodSlider.setSize(200, 50);
 		periodSlider.setLocation(30, 320);
 		thePanel.add(periodSlider);
+
 		periodLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		periodLabel.setSize(250, 200);
 		periodLabel.setLocation(30, 190);
 		thePanel.add(periodLabel);
 		periodText.setSize(120,40);
-		periodText.setText("8");
+		periodText.setText("8.0");
 		periodText.addActionListener(this);
 		periodText.setLocation(250, 300);
 		thePanel.add(periodText);
 		
 		forceSlider.addChangeListener(this);
-		forceSlider.setMajorTickSpacing(25000);
-		forceSlider.setMinorTickSpacing(2500);
+		forceSlider.setMajorTickSpacing(2500000);
+		forceSlider.setMinorTickSpacing(250000);
 		forceSlider.setPaintTicks(true);
 		forceSlider.setPaintLabels(true);
 		forceSlider.setSize(200, 50);
 		forceSlider.setValue(1473);
 		forceSlider.setLocation(30, 440);
+
+		java.util.Hashtable<Integer,JLabel> forceLabelTable = new java.util.Hashtable<Integer,JLabel>();
+		forceLabelTable.put(10000000, new JLabel("1.0E7"));
+		forceLabelTable.put(7500000, new JLabel("7.5E6"));
+		forceLabelTable.put(5000000, new JLabel("5.0E6"));
+		forceLabelTable.put(2500000, new JLabel("2.5E6"));
+		forceLabelTable.put(0, new JLabel("0"));
+		forceSlider.setLabelTable(forceLabelTable);
+
 		thePanel.add(forceSlider);
 		forceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		forceLabel.setSize(300, 200);
