@@ -231,6 +231,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			System.out.println("The force is " + thePanel.dblForceCentr);
 			if(forceSlider.getValueIsAdjusting() == true){
 				System.out.println("yes");
+				intChangeSlider = 1;
 				switch (intChangeSlider){
 					case 1:
 						changeSlider("mass", thePanel.dblMass, massSlider, "radius", thePanel.dblRadius, radiusSlider, "period", thePanel.dblPeriod, periodSlider, intSecondaryChange);
@@ -239,8 +240,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 					case 3:
 						changeSlider("period", thePanel.dblPeriod, periodSlider, "mass", thePanel.dblMass, massSlider, "radius", thePanel.dblRadius, radiusSlider, intSecondaryChange);
 				}
-				forceText.setText(Integer.toString((int)thePanel.dblForceCentr));
 			}
+			forceText.setText(Integer.toString((int)thePanel.dblForceCentr));
         }
 	}
 	public void keyReleased(KeyEvent evt){
