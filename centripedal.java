@@ -71,17 +71,28 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	
 	JButton finishButton = new JButton("Finish");
 
+	JLabel fcLabel = new JLabel("Fc");
+	Timer forceTimer = new Timer(2, this);
+
 	boolean blnForceTextChange = false;
 	boolean blnMousePressed = false;
 	int intChangeSlider;
 	int intSecondaryChange;
-	
+
 	// Methods
 	public void actionPerformed(ActionEvent evt){
 		if (evt.getSource() == theTimer){
 			forceSlider.setValue((int)thePanel.dblForceCentr);
 			thePanel.repaint();
-			System.out.println(blnForceTextChange);
+			int intFCFontSize = thePanel.intTracerRadius/3;			
+			int intFCPosX = (int)((thePanel.intTracerRadius/2)*(Math.cos(Math.toRadians(thePanel.dblDegrees)))+ 690 - intFCFontSize/2);
+			int intFCPosY = (int)((thePanel.intTracerRadius/2)*(Math.sin(Math.toRadians(thePanel.dblDegrees)))+ 270 - intFCFontSize/2);
+			fcLabel.setFont(new Font("Times New Roman", Font.PLAIN, intFCFontSize));
+			fcLabel.setLocation(intFCPosX, intFCPosY);
+		}
+		if (evt.getSource() == forceTimer){
+			blnForceTextChange = false;
+			forceTimer.stop();
 		}
 		if(evt.getSource() == helpItem){
 			theFrame.setVisible(false);
@@ -181,6 +192,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			}
 			if (evt.getSource() == forceText){
 				blnForceTextChange = true;
+				forceTimer.start();
 				forceSlider.setValue(Integer.parseInt(forceText.getText()));
 				if(Integer.parseInt(forceText.getText()) < 0){
 					forceText.setText("0");
@@ -213,17 +225,19 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	public void stateChanged(ChangeEvent evt){
 		if(evt.getSource() == massSlider){
 			thePanel.dblMass = massSlider.getValue();
-			System.out.println("change");
+			System.out.println("massSlider change");
 			System.out.println("The mass is " + thePanel.dblMass);
 			massText.setText(Integer.toString((int)thePanel.dblMass));
         } 
 		if(evt.getSource() == radiusSlider){
 			thePanel.dblRadius = radiusSlider.getValue();
+			System.out.println("radius sliderChange");
 			System.out.println("The radius is " + thePanel.dblRadius);
 			radiusText.setText(Integer.toString((int)thePanel.dblRadius));
         }
         if(evt.getSource() == periodSlider){
 			thePanel.dblPeriod = periodSlider.getValue();
+			System.out.println("period sliderChange");
 			System.out.println("The period is " + thePanel.dblPeriod);
 			periodText.setText(Integer.toString((int)thePanel.dblPeriod));
         }
@@ -243,16 +257,18 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 						thePanel.dblRadius = 0;
 						radiusSlider.setValue(0);
 				}
-			} else if(forceSlider.getValueIsAdjusting() == true){
-				System.out.println("yes");
+			} else if(forceSlider.getValueIsAdjusting() == true || blnForceTextChange == true){
 				intChangeSlider = (int)(Math.random() * 3) + 1;
-				switch (intChangeSlider){
+				 switch (intChangeSlider){
 					case 1:
 						changeSlider("mass", thePanel.dblMass, massSlider, "radius", thePanel.dblRadius, radiusSlider, "period", thePanel.dblPeriod, periodSlider, intSecondaryChange);
+						System.out.println("mass");	
 					case 2:
 						changeSlider("radius", thePanel.dblRadius, radiusSlider, "mass", thePanel.dblMass, massSlider, "period", thePanel.dblPeriod, periodSlider, intSecondaryChange);
+						System.out.println("Radius");
 					case 3:
 						changeSlider("period", thePanel.dblPeriod, periodSlider, "mass", thePanel.dblMass, massSlider, "radius", thePanel.dblRadius, radiusSlider, intSecondaryChange);
+						System.out.println("Period");
 				}
 			}
 			forceText.setText(Integer.toString((int)thePanel.dblForceCentr));
@@ -560,6 +576,11 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		finishButton.setLocation(850, 450);
 		newTestPanel.add(finishButton);
 		
+		fcLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
+		fcLabel.setSize(100,100);
+		fcLabel.setLocation(665 + thePanel.intTracerRadius/2, 235);
+		thePanel.add(fcLabel);
+
 		theFrame.setContentPane(thePanel);
 		theFrame.pack();
 		theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

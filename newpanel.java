@@ -10,6 +10,7 @@ import javax.imageio.*;
 public class newpanel extends JPanel{
 	
 	//Properties
+
 	int intPosX = 740;
 	int intVeloX;
 	int intAccelX;
@@ -31,16 +32,25 @@ public class newpanel extends JPanel{
 	AffineTransform t = new AffineTransform();
 	Shape rForceRect = t.createTransformedShape(forceRect);
 	
+	int intMass = (int)dblMass / 10;
+	int intRadius = (int)dblRadius * 5;
+
+	int intTracerDiameter = intRadius*2 + intMass/4;
+	int intTracerRadius = intRadius + intMass/8;
+	int intTracerWidth = intMass / 4;
+
+	JLabel fcLabel = new JLabel();
+
 	//Methods
 	public void paintComponent(Graphics g){
 		
-		int intMass = (int)dblMass / 10;
-		int intRadius = (int)dblRadius * 5;
+		intMass = (int)dblMass / 10;
+		intRadius = (int)dblRadius * 5;
 		
 		// The tracer is used to "map" out the movement of the ball
-		int intTracerDiameter = intRadius*2 + intMass/4;
-		int intTracerRadius = intRadius + intMass/8;
-		int intTracerWidth = intMass / 4;
+		intTracerDiameter = intRadius*2 + intMass/4;
+		intTracerRadius = intRadius + intMass/8;
+		intTracerWidth = intMass / 4;
 
 		if (dblPeriod == 0){
 			dblForceCentr = 0;
@@ -58,7 +68,6 @@ public class newpanel extends JPanel{
 			forceRect.y = (int)(270 - dblForceCentr/300);
 		}
 			
-		
 		Color grey = new Color(247, 242, 242);
 		g.setColor(grey);
 		g.fillRect(0, 0, 400, 540);
@@ -92,6 +101,7 @@ public class newpanel extends JPanel{
 
 		//System.out.println("Centripedal force is: " + dblForceCentr);
 	}
+
 }
 
 
