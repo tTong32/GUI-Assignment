@@ -43,7 +43,6 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JLabel periodLabel = new JLabel("Period (s)");
 	JTextField periodText = new JTextField();
 
-	JSlider forceSlider = new JSlider(0, 10000000);
 	JLabel forceLabel = new JLabel("Force (π^2N)");
 	JTextField forceText = new JTextField();
 	
@@ -84,8 +83,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	// Methods
 	public void actionPerformed(ActionEvent evt){
 		if (evt.getSource() == theTimer){
-			forceSlider.setValue((int)thePanel.dblForceCentr);
 			thePanel.repaint();
+			forceText.setText(Integer.toString((int)(thePanel.dblForceCentr)));
 			int intFCFontSize = thePanel.intTracerRadius/3;			
 			int intFCPosX = (int)((thePanel.intTracerRadius/2)*(Math.cos(Math.toRadians(thePanel.dblDegrees)))+ 690 - intFCFontSize/2);
 			int intFCPosY = (int)((thePanel.intTracerRadius/2)*(Math.sin(Math.toRadians(thePanel.dblDegrees)))+ 270 - intFCFontSize/2);
@@ -197,7 +196,6 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			if (evt.getSource() == forceText){
 				blnForceTextChange = true;
 				forceTimer.start();
-				forceSlider.setValue(Integer.parseInt(forceText.getText()));
 				if(Integer.parseInt(forceText.getText()) < 0){
 					forceText.setText("0");
 				} else if(Integer.parseInt(forceText.getText()) > 10000000){
@@ -245,38 +243,6 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			System.out.println("The period is " + thePanel.dblPeriod);
 			periodText.setText(Double.toString(thePanel.dblPeriod));
         }
-		if(evt.getSource() == forceSlider){
-			thePanel.dblForceCentr = forceSlider.getValue();
-			System.out.println("The force is " + thePanel.dblForceCentr);
-			if(forceSlider.getValue() == 0){
-				intChangeSlider = (int)(Math.random() * 3) + 1;
-				switch (intChangeSlider){
-					case 1:
-						thePanel.dblMass = 0;
-						massSlider.setValue(0);
-					case 2:
-						thePanel.dblPeriod = 0;
-						periodSlider.setValue(0);
-					case 3:
-						thePanel.dblRadius = 0;
-						radiusSlider.setValue(0);
-				}
-			} else if(forceSlider.getValueIsAdjusting() == true || blnForceTextChange == true){
-				intChangeSlider = (int)(Math.random() * 3) + 1;
-				 switch (intChangeSlider){
-					case 1:
-						changeSlider("mass", thePanel.dblMass, massSlider, "radius", thePanel.dblRadius, radiusSlider, "period", thePanel.dblPeriod, periodSlider, intSecondaryChange);
-						System.out.println("mass");	
-					case 2:
-						changeSlider("radius", thePanel.dblRadius, radiusSlider, "mass", thePanel.dblMass, massSlider, "period", thePanel.dblPeriod, periodSlider, intSecondaryChange);
-						System.out.println("Radius");
-					case 3:
-						changeSlider("period", thePanel.dblPeriod, periodSlider, "mass", thePanel.dblMass, massSlider, "radius", thePanel.dblRadius, radiusSlider, intSecondaryChange);
-						System.out.println("Period");
-				}
-			}
-			forceText.setText(Integer.toString((int)thePanel.dblForceCentr));
-        }
 	}
 	public void keyReleased(KeyEvent evt){
 	}
@@ -301,94 +267,6 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	public void mouseMoved(MouseEvent evt){
 	}
 	public void mouseDragged(MouseEvent evt){
-	}
-
-	public double equations(String strValue, double dblValue){
-		if (strValue.equals("mass")){
-			dblValue = (thePanel.dblForceCentr*thePanel.dblPeriod*thePanel.dblPeriod)/(4*thePanel.dblRadius);
-		} else if (strValue.equals("radius")){
-			dblValue = (thePanel.dblForceCentr*thePanel.dblPeriod*thePanel.dblPeriod)/(4*thePanel.dblMass);
-		} else if (strValue.equals("period")){
-			dblValue = Math.sqrt(thePanel.dblForceCentr/(4*thePanel.dblMass*thePanel.dblRadius));
-		} else if (strValue.equals("force")){
-			dblValue = (4*thePanel.dblMass*thePanel.dblRadius) / (thePanel.dblPeriod*thePanel.dblPeriod);
-		} 
-		return dblValue;
-	}
-
-	public double defineLowerBound(String strValue){
-		double dblLowerBound = 0;
-		if (strValue.equals("mass")){
-			dblLowerBound = 100;
-		} else if (strValue.equals("radius")){
-			dblLowerBound = 1;
-		} else if (strValue.equals("period")){
-			dblLowerBound = 0.1;
-		}
-		return dblLowerBound;
-	}
-	public int defineUpperBound(String strValue){
-		int intUpperBound = 0;
-		if (strValue.equals("mass")){
-			intUpperBound = 500;
-		} else if (strValue.equals("radius")){
-			intUpperBound = 50;
-		} else if (strValue.equals("period")){
-			intUpperBound = 16;
-		}
-		return intUpperBound;
-	}
-
-	public void changeSlider(String strValue1, double dblValue1, JSlider value1Slider, String strValue2, double dblValue2, JSlider value2Slider, String strValue3, double dblValue3, JSlider value3Slider, int intSecondaryChange){
-		dblValue1 = equations(strValue1, dblValue1);
-		if (dblValue1 > defineUpperBound(strValue1)){
-			dblValue1 = defineUpperBound(strValue1);
-			switch(intSecondaryChange){
-				case 1:
-					dblValue2 = equations(strValue2, dblValue2);
-					if (dblValue2 > defineUpperBound(strValue2)){
-						dblValue2 = defineUpperBound(strValue2);
-						dblValue3 = equations(strValue3, dblValue3);
-					} else if (dblValue2 < defineLowerBound(strValue2)){
-						dblValue2 = defineLowerBound(strValue2);
-						dblValue3 = equations(strValue3, dblValue3);
-					}
-				case 2:
-					dblValue3 = equations(strValue3, dblValue3);
-					if (dblValue3 > defineUpperBound(strValue3)){
-						dblValue3 = defineUpperBound(strValue3);
-						dblValue2 = equations(strValue2, dblValue2);
-					} else if (dblValue3 < defineLowerBound(strValue3)){
-						dblValue3 = defineLowerBound(strValue3);
-						dblValue2 = equations(strValue2, dblValue2);
-					}
-			}
-		} else if (dblValue1 < defineLowerBound(strValue1)){
-			dblValue1 = defineLowerBound(strValue1);
-			switch(intSecondaryChange){
-				case 1:
-					dblValue2 = equations(strValue2, dblValue2);
-					if (dblValue2 > defineUpperBound(strValue2)){
-						dblValue2 = defineUpperBound(strValue2);
-						dblValue3 = equations(strValue3, dblValue3);
-					} else if (dblValue2 < defineLowerBound(strValue2)){
-						dblValue2 = defineLowerBound(strValue2);
-						dblValue3 = equations(strValue3, dblValue3);
-					}
-				case 2:
-					dblValue3 = equations(strValue3, dblValue3);
-					if (dblValue3 > defineUpperBound(strValue3)){
-						dblValue3 = defineUpperBound(strValue3);
-						dblValue2 = equations(strValue2, dblValue2);
-					} else if (dblValue3 < defineLowerBound(strValue3)){
-						dblValue3 = defineLowerBound(strValue3);
-						dblValue2 = equations(strValue2, dblValue2);
-					}
-			}
-		}
-		value1Slider.setValue((int)dblValue1);
-		value2Slider.setValue((int)dblValue2);
-		value3Slider.setValue((int)dblValue3);
 	}
 
 	// Constructor
@@ -493,30 +371,13 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		periodText.setLocation(250, 300);
 		thePanel.add(periodText);
 		
-		forceSlider.addChangeListener(this);
-		forceSlider.setMajorTickSpacing(2500000);
-		forceSlider.setMinorTickSpacing(250000);
-		forceSlider.setPaintTicks(true);
-		forceSlider.setPaintLabels(true);
-		forceSlider.setSize(200, 50);
-		forceSlider.setValue(1473);
-		forceSlider.setLocation(30, 440);
-
-		java.util.Hashtable<Integer,JLabel> forceLabelTable = new java.util.Hashtable<Integer,JLabel>();
-		forceLabelTable.put(10000000, new JLabel("1.0E7"));
-		forceLabelTable.put(7500000, new JLabel("7.5E6"));
-		forceLabelTable.put(5000000, new JLabel("5.0E6"));
-		forceLabelTable.put(2500000, new JLabel("2.5E6"));
-		forceLabelTable.put(0, new JLabel("0"));
-		forceSlider.setLabelTable(forceLabelTable);
-
-		thePanel.add(forceSlider);
 		forceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		forceLabel.setSize(300, 200);
 		forceLabel.setLocation(30, 310);
 		thePanel.add(forceLabel);
+		forceText.setEditable(false);
 		forceText.setSize(120,40);
-		forceText.setLocation(250, 420);
+		forceText.setLocation(80, 450);
 		forceText.addActionListener(this);
 		forceText.setText(Integer.toString((int)thePanel.dblForceCentr));
 		thePanel.add(forceText);

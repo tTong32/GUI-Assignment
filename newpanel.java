@@ -39,6 +39,14 @@ public class newpanel extends JPanel{
 	int intTracerRadius = intRadius + intMass/8;
 	int intTracerWidth = intMass / 4;
 
+				
+	Color greyColor = new Color(247, 242, 242);
+
+	int intForceR = 255;
+	int intForceG = 180;
+	int intForceB = 180;
+	Color forceColor = new Color(intForceR, intForceG, intForceB);
+
 	JLabel fcLabel = new JLabel();
 
 	//Methods
@@ -59,17 +67,37 @@ public class newpanel extends JPanel{
 		}
 		
 		Graphics2D g2d = (Graphics2D)g;
-		if (dblForceCentr < 200 && dblPeriod != 0){
+
+		intForceR = 255;
+		intForceB = 180;
+		intForceG = 180;
+
+		if (dblForceCentr > 0 && dblForceCentr < 100 && dblPeriod != 0){
 			forceRect.height = 1;
+			forceRect.width = intTracerRadius;
+			forceRect.y = 270;
+		} else if (dblPeriod == 0){
+			forceRect.height = 0;
+			forceRect.width = 0;
+		} else if (dblForceCentr > 10000){
+			try{
+				intForceG = 180 - (int)(dblForceCentr/500);
+				intForceB = 180 - (int)(dblForceCentr/500);
+				forceColor = new Color(intForceR, intForceG, intForceB);
+			} catch (IllegalArgumentException e){
+				intForceR = 180 - (int)(dblForceCentr/100000);
+				intForceB = 0;
+				intForceG = 0;
+				forceColor = new Color(intForceR, intForceG, intForceB);
+			}
 			forceRect.width = intTracerRadius;
 		} else {
 			forceRect.width = intTracerRadius;
 			forceRect.height = (int)dblForceCentr/150;
 			forceRect.y = (int)(270 - dblForceCentr/300);
 		}
-			
-		Color grey = new Color(247, 242, 242);
-		g.setColor(grey);
+
+		g.setColor(greyColor);
 		g.fillRect(0, 0, 400, 540);
 		
 		g.setColor(Color.WHITE);
@@ -81,10 +109,11 @@ public class newpanel extends JPanel{
 		g.setColor(Color.WHITE);
 		g.fillOval(690 - intTracerRadius + intTracerWidth, 270 - intTracerRadius + intTracerWidth, intTracerDiameter - intTracerWidth*2, intTracerDiameter - intTracerWidth*2);
 
+		g.setColor(forceColor);
+		g2d.fill(rForceRect);
+
 		g.setColor(Color.RED);
 		g.fillOval(intPosX - (intMass / 2), intPosY - (intMass / 2), intMass, intMass);
-
-		g2d.fill(rForceRect);
 		
 		if (dblPeriod != 0){
 			dblDegrees += 360/(48*dblPeriod);
