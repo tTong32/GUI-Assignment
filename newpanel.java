@@ -76,25 +76,26 @@ public class newpanel extends JPanel{
 			forceRect.height = 1;
 			forceRect.width = intTracerRadius;
 			forceRect.y = 270;
-		} else if (dblPeriod == 0){
+		} else if (dblPeriod == 0 || dblForceCentr == 0){
 			forceRect.height = 0;
 			forceRect.width = 0;
 		} else if (dblForceCentr > 10000){
 			try{
-				intForceG = 180 - (int)(dblForceCentr/500);
-				intForceB = 180 - (int)(dblForceCentr/500);
+				intForceG = 180 - (int)(dblForceCentr/400);
+				intForceB = 180 - (int)(dblForceCentr/400);
 				forceColor = new Color(intForceR, intForceG, intForceB);
 			} catch (IllegalArgumentException e){
-				intForceR = 180 - (int)(dblForceCentr/100000);
+				intForceR = 255 - (int)(dblForceCentr*1.5/100000);
 				intForceB = 0;
 				intForceG = 0;
 				forceColor = new Color(intForceR, intForceG, intForceB);
 			}
 			forceRect.width = intTracerRadius;
+			forceRect.height = 50;
 		} else {
 			forceRect.width = intTracerRadius;
-			forceRect.height = (int)dblForceCentr/150;
-			forceRect.y = (int)(270 - dblForceCentr/300);
+			forceRect.height = (int)dblForceCentr/200;
+			forceRect.y = (int)(270 - dblForceCentr/400);
 		}
 
 		g.setColor(greyColor);

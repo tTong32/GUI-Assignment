@@ -18,7 +18,6 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	leaderboard newLeaderboardPanel = new leaderboard();
 	
 	int correctAnswers = 0;
-	JLabel helpLabel = new JLabel("Poon");
 	JLabel creditLabel = new JLabel("The students Addison and Thomson");
 	JLabel creditLabel2 = new JLabel("at St. Augustine CHS Computer Science");
 	JLabel creditLabel3 = new JLabel("made this program");
@@ -26,8 +25,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	String strCorrectAnswers = "";
 	JLabel answersLabel = new JLabel();
 	String strName = "";
-	JTextArea textArea = new JTextArea();
-	JScrollPane testScroll = new JScrollPane(textArea);
+	JTextArea lbTextArea = new JTextArea();
+	JScrollPane testScroll = new JScrollPane(lbTextArea);
 	
 	JMenuBar menuBar = new JMenuBar();
 	JMenu openMenu = new JMenu("Menu");
@@ -131,7 +130,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 				BufferedReader reader = new BufferedReader(new FileReader("leaderboard.txt"));
 				strLine = reader.readLine();
 				while(strLine != null){
-					textArea.append(strLine + "\n");
+					lbTextArea.append(strLine + "\n");
 					strLine = reader.readLine();
 				}
 				reader.close();
@@ -197,7 +196,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			System.out.println("You have " + correctAnswers +" correct answers.");
 			this.finishButton.setEnabled(false);
 			this.retryButton.setEnabled(true);
-			textArea.setText("");
+			lbTextArea.setText("");
 			try{
 				PrintWriter leaderboardFile = new PrintWriter(new FileWriter("leaderboard.txt", true));
 				leaderboardFile.println(strName + ": " + strCorrectAnswers + " answers correct");
@@ -238,6 +237,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			} 
 			if (evt.getSource() == radiusText){
 				radiusSlider.setValue(Integer.parseInt(radiusText.getText()));
+				thePanel.dblRadius = (Double.parseDouble(radiusText.getText()));
 				if(Integer.parseInt(radiusText.getText()) < 0){
 					radiusText.setText("0");
 				} else if (Integer.parseInt(radiusText.getText()) > 50){
@@ -257,14 +257,14 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		} catch (NumberFormatException e){
 			JFrame errorFrame = new JFrame("Error Message");
 			JPanel errorPanel = new JPanel();
-			JLabel errorLabel = new JLabel("Error: Please enter a number");
+			JLabel errorLabel = new JLabel("Error: Please enter a valid number");
 
 			errorLabel.setSize(300, 50);
 			errorLabel.setLocation(10, 0);
 			errorLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 
 			errorPanel.setLayout(null);
-			errorPanel.setPreferredSize(new Dimension(250,50));
+			errorPanel.setPreferredSize(new Dimension(290,50));
 			errorPanel.add(errorLabel);
 
 			errorFrame.setContentPane(errorPanel);
@@ -308,12 +308,10 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	public void mouseEntered(MouseEvent evt){
 	}
 	public void mouseReleased(MouseEvent evt){
-		System.out.println("releasing");
 	}
 	public void mouseClicked(MouseEvent evt){
 	}
 	public void mousePressed(MouseEvent evt){
-		System.out.println("pressing");
 	}
 	
 	public void mouseMoved(MouseEvent evt){
@@ -339,7 +337,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		openMenu.add(leaderboardItem);
 		theFrame.setJMenuBar(menuBar);
 		
-		textArea.setEditable(false);
+		lbTextArea.setEditable(false);
 		testScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         testScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         newLeaderboardPanel.setLayout(new BorderLayout());
@@ -362,10 +360,6 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		leaderboardItem.addActionListener(this);
 		
 		helpItem.addActionListener(this);
-		helpLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
-		helpLabel.setSize(200, 200);
-		helpLabel.setLocation(30, -50);
-		newHelpPanel.add(helpLabel);
 		
 		homeItem.addActionListener(this);
 
