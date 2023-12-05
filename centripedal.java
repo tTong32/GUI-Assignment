@@ -23,10 +23,11 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JLabel creditLabel2 = new JLabel("at St. Augustine CHS Computer Science");
 	JLabel creditLabel3 = new JLabel("made this program");
 	Timer theTimer = new Timer(1000/48, this);
-	JScrollPane testScroll = new JScrollPane(newTestPanel);
 	String strCorrectAnswers = "";
 	JLabel answersLabel = new JLabel();
 	String strName = "";
+	JTextArea textArea = new JTextArea();
+	JScrollPane testScroll = new JScrollPane(textArea);
 	
 	JMenuBar menuBar = new JMenuBar();
 	JMenu openMenu = new JMenu("Menu");
@@ -183,6 +184,21 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			System.out.println("You have " + correctAnswers +" correct answers.");
 			this.finishButton.setEnabled(false);
 			this.retryButton.setEnabled(true);
+			textArea.setText("");
+			try{
+				PrintWriter leaderboardFile = new PrintWriter(new FileWriter("leaderboard.txt", true));
+				leaderboardFile.println(strName + ": " + strCorrectAnswers + " answers correct");
+				String strLine = "";
+				BufferedReader reader = new BufferedReader(new FileReader("leaderboard.txt"));
+				strLine = reader.readLine();
+				while(strLine != null){
+					textArea.append(strLine + "\n");
+					strLine = reader.readLine();
+				}
+			leaderboardFile.close();
+			}catch(IOException e){
+				System.out.println("Cannot find file");
+			}
 		}if(evt.getSource() == retryButton){
 			nameText.setText("");
 			question1Menu.setSelectedIndex(0);
@@ -316,6 +332,12 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		openMenu.add(testItem);
 		openMenu.add(leaderboardItem);
 		theFrame.setJMenuBar(menuBar);
+		
+		textArea.setEditable(false);
+		testScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        testScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        newLeaderboardPanel.setLayout(new BorderLayout());
+        newLeaderboardPanel.add(testScroll);
 		
 		creditItem.addActionListener(this);
 		creditLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
@@ -511,7 +533,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		newTestPanel.add(finishButton);
 		this.retryButton.setEnabled(false);
 		answersLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		answersLabel.setLocation(800, 500);
+		answersLabel.setLocation(700, 500);
 		answersLabel.setSize(250, 20);
 		newTestPanel.add(answersLabel);
 		retryButton.addActionListener(this);
