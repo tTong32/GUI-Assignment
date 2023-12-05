@@ -15,14 +15,18 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	helppanel newHelpPanel = new helppanel();
 	creditpanel newCreditPanel = new creditpanel();
 	testpanel newTestPanel = new testpanel();
+	leaderboard newLeaderboardPanel = new leaderboard();
 	
 	int correctAnswers = 0;
 	JLabel helpLabel = new JLabel("Poon");
-	JLabel creditLabel = new JLabel("Poon made this");
+	JLabel creditLabel = new JLabel("The students Addison and Thomson");
+	JLabel creditLabel2 = new JLabel("at St. Augustine CHS Computer Science");
+	JLabel creditLabel3 = new JLabel("made this program");
 	Timer theTimer = new Timer(1000/48, this);
 	JScrollPane testScroll = new JScrollPane(newTestPanel);
 	String strCorrectAnswers = "";
 	JLabel answersLabel = new JLabel();
+	String strName = "";
 	
 	JMenuBar menuBar = new JMenuBar();
 	JMenu openMenu = new JMenu("Menu");
@@ -30,6 +34,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JMenuItem helpItem = new JMenuItem("Help");
 	JMenuItem creditItem = new JMenuItem("Credits");
 	JMenuItem testItem = new JMenuItem("Test");
+	JMenuItem leaderboardItem = new JMenuItem("Leaderboard");
 	
 	JLabel massLabel = new JLabel("Mass (kg)");
 	JSlider massSlider = new JSlider(100, 500);
@@ -46,6 +51,9 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JSlider forceSlider = new JSlider(0, 100000);
 	JLabel forceLabel = new JLabel("Force (π^2N)");
 	JTextField forceText = new JTextField();
+	
+	JLabel nameLabel = new JLabel("Name");
+	JTextField nameText = new JTextField();
 	
 	String[] question1Box = {"a", "b", "c", "d"};
 	JComboBox question1Menu = new JComboBox(question1Box);
@@ -72,6 +80,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JLabel testQuestion3AnswerD = new JLabel("d. Opposite to the direction of motion");
 	
 	JButton finishButton = new JButton("Finish");
+	JButton retryButton = new JButton("Retry");
 
 	JLabel fcLabel = new JLabel("Fc");
 	Timer forceTimer = new Timer(2, this);
@@ -114,6 +123,11 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		}if(evt.getSource() == testItem){
 			theFrame.setVisible(false);
 			theFrame.setContentPane(newTestPanel);
+			theFrame.setVisible(true);
+			theFrame.repaint();
+		}if(evt.getSource() == leaderboardItem){
+			theFrame.setVisible(false);
+			theFrame.setContentPane(newLeaderboardPanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
 		}if(evt.getSource() == question1Menu){
@@ -161,9 +175,25 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 				correctAnswers++;
 			}
 			strCorrectAnswers = Integer.toString(correctAnswers);
+			strName = nameText.getText();
+			this.nameText.setEnabled(false);
+			this.question1Menu.setEnabled(false);
+			this.question2Menu.setEnabled(false);
+			this.question3Menu.setEnabled(false);
 			answersLabel.setText("You got " + strCorrectAnswers + " correct answers.");
 			System.out.println("You have " + correctAnswers +" correct answers.");
 			this.finishButton.setEnabled(false);
+			this.retryButton.setEnabled(true);
+		}if(evt.getSource() == retryButton){
+			nameText.setText("");
+			question1Menu.setSelectedIndex(0);
+			question2Menu.setSelectedIndex(0);
+			question3Menu.setSelectedIndex(0);
+			this.question1Menu.setEnabled(true);
+			this.question2Menu.setEnabled(true);
+			this.question3Menu.setEnabled(true);
+			this.nameText.setEnabled(true);
+			this.finishButton.setEnabled(true);
 		}
 		
 		try{
@@ -404,13 +434,24 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		openMenu.add(helpItem);
 		openMenu.add(creditItem);	
 		openMenu.add(testItem);
+		openMenu.add(leaderboardItem);
 		theFrame.setJMenuBar(menuBar);
 		
 		creditItem.addActionListener(this);
-		creditLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
-		creditLabel.setSize(200, 200);
-		creditLabel.setLocation(0, -50);
+		creditLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+		creditLabel.setSize(600, 200);
+		creditLabel.setLocation(300, 250);
 		newCreditPanel.add(creditLabel);
+		creditLabel2.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+		creditLabel2.setSize(600, 200);
+		creditLabel2.setLocation(275, 300);
+		newCreditPanel.add(creditLabel2);
+		creditLabel3.setFont(new Font("Times New Roman", Font.PLAIN, 30));
+		creditLabel3.setSize(600, 200);
+		creditLabel3.setLocation(400, 350);
+		newCreditPanel.add(creditLabel3);
+		
+		leaderboardItem.addActionListener(this);
 		
 		helpItem.addActionListener(this);
 		helpLabel.setFont(new Font("Times New Roman", Font.PLAIN, 50));
@@ -502,87 +543,101 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		testItem.addActionListener(this);
 		
 				
-		question1Menu.setLocation(400, 35);
+		question1Menu.setLocation(400, 60);
 		question1Menu.setSize(50, 25);
 		question1Menu.addActionListener(this);
 		testQuestion1Label.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		testQuestion1Label.setSize(400, 200);
-		testQuestion1Label.setLocation(10,-50);
+		testQuestion1Label.setLocation(10,-25);
 		newTestPanel.add(testQuestion1Label);
 		testQuestion1AnswerA.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion1AnswerA.setSize(450, 50);
-		testQuestion1AnswerA.setLocation(10, 50);
+		testQuestion1AnswerA.setLocation(10, 75);
 		newTestPanel.add(testQuestion1AnswerA);
 		testQuestion1AnswerB.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion1AnswerB.setSize(450, 50);
-		testQuestion1AnswerB.setLocation(10, 75);
+		testQuestion1AnswerB.setLocation(10, 100);
 		newTestPanel.add(testQuestion1AnswerB);
 		testQuestion1AnswerC.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion1AnswerC.setSize(450, 50);
-		testQuestion1AnswerC.setLocation(10, 100);
+		testQuestion1AnswerC.setLocation(10, 125);
 		newTestPanel.add(testQuestion1AnswerC);
 		testQuestion1AnswerD.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion1AnswerD.setSize(450, 50);
-		testQuestion1AnswerD.setLocation(10, 125);
+		testQuestion1AnswerD.setLocation(10, 150);
 		newTestPanel.add(testQuestion1AnswerD);
 		
-		question2Menu.setLocation(750, 190);
+		question2Menu.setLocation(750, 215);
 		question2Menu.setSize(50, 25);
 		question2Menu.addActionListener(this);
 		testQuestion2Label.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		testQuestion2Label.setSize(900, 200);
-		testQuestion2Label.setLocation(10,100);
+		testQuestion2Label.setLocation(10,125);
 		newTestPanel.add(testQuestion2Label);
 		testQuestion2AnswerA.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion2AnswerA.setSize(450, 50);
-		testQuestion2AnswerA.setLocation(10, 200);
+		testQuestion2AnswerA.setLocation(10, 225);
 		newTestPanel.add(testQuestion2AnswerA);
 		testQuestion2AnswerB.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion2AnswerB.setSize(450, 50);
-		testQuestion2AnswerB.setLocation(10, 225);
+		testQuestion2AnswerB.setLocation(10, 250);
 		newTestPanel.add(testQuestion2AnswerB);
 		testQuestion2AnswerC.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion2AnswerC.setSize(450, 50);
-		testQuestion2AnswerC.setLocation(10, 250);
+		testQuestion2AnswerC.setLocation(10, 275);
 		newTestPanel.add(testQuestion2AnswerC);
 		testQuestion2AnswerD.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion2AnswerD.setSize(450, 50);
-		testQuestion2AnswerD.setLocation(10, 275);
+		testQuestion2AnswerD.setLocation(10, 300);
 		newTestPanel.add(testQuestion2AnswerD);
 		
-		question3Menu.setLocation(550, 340);
+		question3Menu.setLocation(550, 365);
 		question3Menu.setSize(50, 25);
 		question3Menu.addActionListener(this);
 		testQuestion3Label.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		testQuestion3Label.setSize(900, 200);
-		testQuestion3Label.setLocation(10,250);
+		testQuestion3Label.setLocation(10,275);
 		newTestPanel.add(testQuestion3Label);
 		testQuestion3AnswerA.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion3AnswerA.setSize(450, 50);
-		testQuestion3AnswerA.setLocation(10, 350);
+		testQuestion3AnswerA.setLocation(10, 370);
 		newTestPanel.add(testQuestion3AnswerA);
 		testQuestion3AnswerB.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion3AnswerB.setSize(450, 50);
-		testQuestion3AnswerB.setLocation(10, 375);
+		testQuestion3AnswerB.setLocation(10, 400);
 		newTestPanel.add(testQuestion3AnswerB);
 		testQuestion3AnswerC.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion3AnswerC.setSize(450, 50);
-		testQuestion3AnswerC.setLocation(10, 400);
+		testQuestion3AnswerC.setLocation(10, 425);
 		newTestPanel.add(testQuestion3AnswerC);
 		testQuestion3AnswerD.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion3AnswerD.setSize(450, 50);
-		testQuestion3AnswerD.setLocation(10, 425);
+		testQuestion3AnswerD.setLocation(10, 450);
 		newTestPanel.add(testQuestion3AnswerD);
 		
 		finishButton.addActionListener(this);
 		finishButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		finishButton.setSize(100, 20);
-		finishButton.setLocation(850, 450);
+		finishButton.setLocation(650, 450);
+		retryButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		retryButton.setSize(100, 20);
+		retryButton.setLocation(800, 450);
+		newTestPanel.add(retryButton);
 		newTestPanel.add(finishButton);
+		this.retryButton.setEnabled(false);
 		answersLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		answersLabel.setLocation(725, 500);
+		answersLabel.setLocation(800, 500);
 		answersLabel.setSize(250, 20);
 		newTestPanel.add(answersLabel);
+		retryButton.addActionListener(this);
+		
+		nameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		nameLabel.setSize(100, 20);
+		nameLabel.setLocation(10, 20);
+		newTestPanel.add(nameLabel);
+		nameText.setSize(100, 20);
+		nameText.setLocation(75, 20);
+		newTestPanel.add(nameText);
 		
 		fcLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		fcLabel.setSize(100,100);
