@@ -456,11 +456,11 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		newTestPanel.add(question3Menu);
 		testItem.addActionListener(this);
 				
-		question1Menu.setLocation(400, 60);
+		question1Menu.setLocation(525, 60);
 		question1Menu.setSize(50, 25);
 		question1Menu.addActionListener(this);
 		testQuestion1Label.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		testQuestion1Label.setSize(400, 200);
+		testQuestion1Label.setSize(550, 200);
 		testQuestion1Label.setLocation(10,-25);
 		newTestPanel.add(testQuestion1Label);
 		testQuestion1AnswerA.setFont(new Font("Times New Roman", Font.PLAIN, 15));
