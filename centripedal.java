@@ -126,6 +126,19 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			theFrame.setVisible(true);
 			theFrame.repaint();
 		}if(evt.getSource() == leaderboardItem){
+			try{
+				String strLine = "";
+				BufferedReader reader = new BufferedReader(new FileReader("leaderboard.txt"));
+				strLine = reader.readLine();
+				while(strLine != null){
+					textArea.append(strLine + "\n");
+					strLine = reader.readLine();
+				}
+				reader.close();
+			}catch(IOException e){
+				System.out.println("Cannot find file");
+			}
+			
 			theFrame.setVisible(false);
 			theFrame.setContentPane(newLeaderboardPanel);
 			theFrame.setVisible(true);
@@ -188,15 +201,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			try{
 				PrintWriter leaderboardFile = new PrintWriter(new FileWriter("leaderboard.txt", true));
 				leaderboardFile.println(strName + ": " + strCorrectAnswers + " answers correct");
-				String strLine = "";
-				BufferedReader reader = new BufferedReader(new FileReader("leaderboard.txt"));
-				strLine = reader.readLine();
-				while(strLine != null){
-					textArea.append(strLine + "\n");
-					strLine = reader.readLine();
-				}
 				leaderboardFile.close();
-				reader.close();
 			}catch(IOException e){
 				System.out.println("Cannot find file");
 			}
