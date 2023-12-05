@@ -6,19 +6,17 @@ import javax.imageio.*;
 
 public class helppanel extends JPanel{
 	//Properties
-	BufferedImage imgPoon = null;
-	int PoonX = 380;
-	int PoonY = 100;
+	BufferedImage imgHelp = null;
 
 	//Methods
 	public void paintComponent(Graphics g){
-		g.drawImage(imgPoon, PoonX, PoonY, null);
+		g.drawImage(imgHelp, 0, 0, null);
 	}
 	
 	//Constructor
 	public helppanel(){
 		try{
-			imgPoon = ImageIO.read(new File("poon.png"));
+			imgHelp = ImageIO.read(new File("helpScreen.png"));
 		}catch(Exception e){
 			System.out.println("Unable to load image");
 		}
