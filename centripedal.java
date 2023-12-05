@@ -195,7 +195,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 					textArea.append(strLine + "\n");
 					strLine = reader.readLine();
 				}
-			leaderboardFile.close();
+				leaderboardFile.close();
+				reader.close();
 			}catch(IOException e){
 				System.out.println("Cannot find file");
 			}
