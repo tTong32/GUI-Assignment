@@ -109,15 +109,18 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	public void actionPerformed(ActionEvent evt){
 		// The timer used to repaint the panel
 		if (evt.getSource() == theTimer){
+			// Make is so that thePanel only updates whenever theFrame's panel is thePanel
 			if (theFrame.getContentPane() == thePanel){
 				thePanel.repaint();
 				forceText.setText(Integer.toString((int)(thePanel.dblForceCentr)));
+				//Using similar process to rotate FC label
 				int intFCFontSize = thePanel.intTracerRadius/3;			
 				int intFCPosX = (int)((thePanel.intTracerRadius/2)*(Math.cos(Math.toRadians(thePanel.dblDegrees)))+ 690 - intFCFontSize/2);
 				int intFCPosY = (int)((thePanel.intTracerRadius/2)*(Math.sin(Math.toRadians(thePanel.dblDegrees)))+ 270 - intFCFontSize/2);
 				fcLabel.setFont(new Font("Times New Roman", Font.PLAIN, intFCFontSize));
 				fcLabel.setLocation(intFCPosX, intFCPosY);
 			}
+			// newHelpPanel will only update if it is theFrame's active panel
 			if (theFrame.getContentPane() == newHelpPanel){
 				newHelpPanel.repaint();
 			}	
@@ -150,10 +153,12 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		//If user clicks on the leaderboard menu item, it will read the file from leaderboard.txt and put it inside the leaderboard text area. It will also set the frame to the leaderboard panel and repaint
 		} else if(evt.getSource() == leaderboardItem){
 			try{
+				// Read from the leaderboard file
 				String strLine = "";
 				BufferedReader reader = new BufferedReader(new FileReader("leaderboard.txt"));
 				strLine = reader.readLine();
 				while(strLine != null){
+					// append what's on the file
 					lbTextArea.append(strLine + "\n");
 					strLine = reader.readLine();
 				}
@@ -162,6 +167,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 				System.out.println("Cannot find file");
 			}
 			
+			// Refresh theFrame to accomodate newLeaderboardPanel
 			theFrame.setVisible(false);
 			theFrame.setContentPane(newLeaderboardPanel);
 			theFrame.setVisible(true);
@@ -176,7 +182,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		//If the user clicks on the question 3 combo box in testpanel, it will get the index of your answer inside of a variable
 		} else if(evt.getSource() == question3Menu){
 			int question3Answer = question3Menu.getSelectedIndex();
-		//If the user clicks on teh finish button, it will get the final selected index of all the comboboxes. It will then check if you got the right answers and increase the variable correctAnswers by one
+		//If the user clicks on the finish button, it will get the final selected index of all the comboboxes. It will then check if you got the right answers and increase the variable correctAnswers by one
 		} else if(evt.getSource() == finishButton){
 			int question1Answer = question1Menu.getSelectedIndex();
 			int question2Answer = question2Menu.getSelectedIndex();
@@ -190,7 +196,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			}
 			strCorrectAnswers = Integer.toString(correctAnswers);
 			strName = nameText.getText();
-		//Disables the nameText, the JComboboxes, and the finish Button. Shows teh answer label and sets the retry button to be enabled and clicked
+			//Disables the nameText, the JComboboxes, and the finish Button. Shows the answer label and sets the retry button to be enabled and clicked
 			this.nameText.setEnabled(false);
 			this.question1Menu.setEnabled(false);
 			this.question2Menu.setEnabled(false);
@@ -202,6 +208,17 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			//Makes a print writer variable to write text into the leaderboard.txt file
 			try{
 				PrintWriter leaderboardFile = new PrintWriter(new FileWriter("leaderboard.txt", true));
+				
+				// if the leaderboard.txt is blank, print "Results"
+				String strLine = "";
+				BufferedReader reader = new BufferedReader(new FileReader("leaderboard.txt"));
+				strLine = reader.readLine();
+				if (strLine == null){
+					leaderboardFile.println("Results");
+				}
+				reader.close();
+
+				// Print the results onto the leaderboard file
 				leaderboardFile.println(strName + ": " + strCorrectAnswers + " answers correct");
 				leaderboardFile.close();
 			}catch(IOException e){
@@ -223,20 +240,26 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			this.retryButton.setEnabled(false);
 		}
 		
+		// a try-catch statement is used in case the user types in an invalid value (letters, or decimals for mass and radius)
 		try{
 			if(evt.getSource() == massText){
 				massSlider.setValue(Integer.parseInt(massText.getText()));
+				// if mass is entered to be less than 100, set it to 100
 				if(Integer.parseInt(massText.getText()) < 100){
 					massText.setText("100");
+				// if mass is entered to be greater than 500, set it to 500
 				} else if (Integer.parseInt(massText.getText()) > 500){
 					massText.setText("500");
 				}
+				// Change force according
 				forceText.setText(Integer.toString((int)(thePanel.dblForceCentr)));
 			}
 			if (evt.getSource() == periodText){
 				periodSlider.setValue((int)(Double.parseDouble(periodText.getText()) * 10));
+				// if period is set to less than 0.0, set it to 0.0
 				if(Double.parseDouble(periodText.getText()) < 0){
 					periodText.setText("0.0");
+				// if period is set to greater than 16.0, set it to 16.0
 				} else if (Double.parseDouble(periodText.getText()) > 16){
 					periodText.setText("16.0");
 				}
@@ -245,13 +268,16 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			if (evt.getSource() == radiusText){
 				radiusSlider.setValue(Integer.parseInt(radiusText.getText()));
 				thePanel.dblRadius = (Double.parseDouble(radiusText.getText()));
+				// if radius is set to less than 0, set it to 0
 				if(Integer.parseInt(radiusText.getText()) < 0){
 					radiusText.setText("0");
+				// if radius is set to greater than 50, set it 50
 				} else if (Integer.parseInt(radiusText.getText()) > 50){
 					radiusText.setText("50");
 				}
 				forceText.setText(Integer.toString((int)(thePanel.dblForceCentr)));
-			}		
+			}
+		// if an error is encountered, an error window will pop up		
 		} catch (NumberFormatException e){
 			JFrame errorFrame = new JFrame("Error Message");
 			JPanel errorPanel = new JPanel();
@@ -267,33 +293,53 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 
 			errorFrame.setContentPane(errorPanel);
 			errorFrame.pack();
+			// this command makes it so that if you exit the frame, it doesn't completely stop the program and only closes the errorFrame
 			errorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			// this command makes the errorFrame pop up in the middle of the screen
 			errorFrame.setLocationRelativeTo(theFrame);
 			errorFrame.setResizable(false);
 			errorFrame.setVisible(true);
 		}
 
+		// If you press the helpNextButton, the help page number will increase
 		if (evt.getSource() == helpNextButton){
 			newHelpPanel.intHelpPage++;
+			// if intHelpPage is on the maximum page, helpNextButton is disabled
+			if (newHelpPanel.intHelpPage == 5){
+				helpNextButton.setEnabled(false);
+			}
+			// always reenable the helpBackButton if helpNextButton is pressed as page will never be at the minimum
+			helpBackButton.setEnabled(true);
+		// if you press the helpBackButton, the help page number will decrease
 		} else if (evt.getSource() == helpBackButton){
 			newHelpPanel.intHelpPage--;
+			// if intHelpPage is at 1 (min), helpBackButton is disabled
+			if (newHelpPanel.intHelpPage == 1){
+				helpBackButton.setEnabled(false);
+			}
+			// always reenable helpNextButton if helpBackButton is pressed as page will never be at the maximum
+			helpNextButton.setEnabled(true);
 		}
 	}
 	
+	// if the sliders are changed
 	public void stateChanged(ChangeEvent evt){
 		if(evt.getSource() == massSlider){
+			// change mass accordingly
 			thePanel.dblMass = massSlider.getValue();
 			System.out.println("massSlider change");
 			System.out.println("The mass is " + thePanel.dblMass);
 			massText.setText(Integer.toString((int)thePanel.dblMass));
         } 
 		if(evt.getSource() == radiusSlider){
+			// change radius accordingly
 			thePanel.dblRadius = radiusSlider.getValue();
 			System.out.println("radius sliderChange");
 			System.out.println("The radius is " + thePanel.dblRadius);
 			radiusText.setText(Integer.toString((int)thePanel.dblRadius));
         }
         if(evt.getSource() == periodSlider){
+			// change period accordingly
 			thePanel.dblPeriod = Double.valueOf(periodSlider.getValue())/10;
 			System.out.println("period sliderChange");
 			System.out.println("The period is " + thePanel.dblPeriod);
@@ -448,6 +494,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		periodText.setLocation(250, 300);
 		thePanel.add(periodText);
 		
+		// set the force label
 		forceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		forceLabel.setSize(300, 200);
 		forceLabel.setLocation(30, 310);
@@ -459,11 +506,13 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		forceText.setText(Integer.toString((int)thePanel.dblForceCentr));
 		thePanel.add(forceText);
 		
+		// set the newTestPanel
 		newTestPanel.add(question1Menu);
 		newTestPanel.add(question2Menu);
 		newTestPanel.add(question3Menu);
 		testItem.addActionListener(this);
 				
+		// set the questions
 		question1Menu.setLocation(525, 60);
 		question1Menu.setSize(50, 25);
 		question1Menu.addActionListener(this);
@@ -552,6 +601,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		newTestPanel.add(answersLabel);
 		retryButton.addActionListener(this);
 		
+		// name label for the test
 		nameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		nameLabel.setSize(100, 20);
 		nameLabel.setLocation(10, 20);
@@ -560,6 +610,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		nameText.setLocation(75, 20);
 		newTestPanel.add(nameText);
 
+		// next and back buttons for the help panel
 		helpNextButton.setSize(100, 20);
 		helpNextButton.setLocation(850,510);
 		helpNextButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -568,21 +619,24 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		helpBackButton.setLocation(30, 510);
 		helpBackButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		helpBackButton.addActionListener(this);
+		helpBackButton.setEnabled(false);
 		newHelpPanel.add(helpNextButton);
 		newHelpPanel.add(helpBackButton);
 
-		
+		// centripetal force label
 		fcLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		fcLabel.setSize(100,100);
 		fcLabel.setLocation(665 + thePanel.intTracerRadius/2, 235);
 		thePanel.add(fcLabel);
 
+		// set the main frame
 		theFrame.setContentPane(thePanel);
 		theFrame.pack();
 		theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		theFrame.setResizable(false);
 		theFrame.setVisible(true);
 		
+		// start the timer for animation
 		theTimer.start();
 		
 	}
