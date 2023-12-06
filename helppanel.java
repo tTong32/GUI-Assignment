@@ -65,12 +65,28 @@ public class helppanel extends JPanel{
 		} else {
 			try{
 				imgHelp1 = ImageIO.read(new File("helpScreen1.jpg"));
+			}catch(Exception e){
+				System.out.println("Unable to load image from jar");
+			}
+			try{
 				imgHelp2 = ImageIO.read(new File("helpScreen2.jpg"));
+			}catch(Exception e){
+				System.out.println("Unable to load image from jar");
+			}
+			try{
 				imgHelp3 = ImageIO.read(new File("helpScreen3.jpg"));
+			}catch(Exception e){
+				System.out.println("Unable to load image from jar");
+			}
+			try{
 				imgHelp4 = ImageIO.read(new File("helpScreen4.jpg"));
+			}catch(Exception e){
+				System.out.println("Unable to load image from jar");
+			}
+			try{
 				imgHelp5 = ImageIO.read(new File("helpScreen5.jpg"));
 			}catch(Exception e){
-				System.out.println("Unable to load image");
+				System.out.println("Unable to load image from jar");
 			}
 		}
 		if (imgHelp1 == null){

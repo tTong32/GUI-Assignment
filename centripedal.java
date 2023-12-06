@@ -223,6 +223,15 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 				//Makes a print writer variable to write text into the leaderboard.txt file
 				try{
 					PrintWriter leaderboardFile = new PrintWriter(new FileWriter("leaderboard.txt", true));
+					String strLine = "";
+					BufferedReader reader = new BufferedReader(new FileReader("leaderboard.txt"));
+					strLine = reader.readLine();
+					// if the leaderboard.txt is blank, print "Results"
+					if (strLine == null){
+						leaderboardFile.println("Results");
+					}
+					reader.close();
+					// Print the results onto the leaderboard file
 					leaderboardFile.println(strName + ": " + strCorrectAnswers + " answers correct");
 					leaderboardFile.close();
 				}catch(IOException e){
@@ -234,7 +243,6 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		//It will also enable all the menus, the finish button, and nametext again. Will disable the retry button
 		if(evt.getSource() == retryButton){
 			nameText.setText("");
-			answersLabel.setText("");
 			question1Menu.setSelectedIndex(0);
 			question2Menu.setSelectedIndex(0);
 			question3Menu.setSelectedIndex(0);
@@ -246,9 +254,12 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			this.retryButton.setEnabled(false);
 		}
 		
+		// a try-catch statement is used in case the user types in an invalid value (letters, or decimals for mass and radius)
 		try{
+			// if massText, periodText or radiusText is edited
 			if(evt.getSource() == massText){
 				massSlider.setValue(Integer.parseInt(massText.getText()));
+				// set mass to upper or lower bound if range is exceeded
 				if(Integer.parseInt(massText.getText()) < 100){
 					massText.setText("100");
 				} else if (Integer.parseInt(massText.getText()) > 500){
@@ -258,6 +269,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			}
 			if (evt.getSource() == periodText){
 				periodSlider.setValue((int)(Double.parseDouble(periodText.getText()) * 10));
+				// set period to upper or lower bound if range is exceeded
 				if(Double.parseDouble(periodText.getText()) < 0){
 					periodText.setText("0.0");
 				} else if (Double.parseDouble(periodText.getText()) > 16){
@@ -268,6 +280,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			if (evt.getSource() == radiusText){
 				radiusSlider.setValue(Integer.parseInt(radiusText.getText()));
 				thePanel.dblRadius = (Double.parseDouble(radiusText.getText()));
+				// set radius to upper or lower bound if range is exceeded
 				if(Integer.parseInt(radiusText.getText()) < 0){
 					radiusText.setText("0");
 				} else if (Integer.parseInt(radiusText.getText()) > 50){
@@ -276,6 +289,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 				forceText.setText(Integer.toString((int)(thePanel.dblForceCentr)));
 			}		
 		} catch (NumberFormatException e){
+			// error message pops out if an invalid number is entered - no decimals for mass and radius, and no letters
 			JFrame errorFrame = new JFrame("Error Message");
 			JPanel errorPanel = new JPanel();
 			JLabel errorLabel = new JLabel("Error: Please enter a valid number");
@@ -290,7 +304,9 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 
 			errorFrame.setContentPane(errorPanel);
 			errorFrame.pack();
+			// this command is used so that the errorFrame will not stop the program when exited
 			errorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			// this command makes the error frame pop up at the center of the screen
 			errorFrame.setLocationRelativeTo(theFrame);
 			errorFrame.setResizable(false);
 			errorFrame.setVisible(true);
@@ -298,28 +314,42 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 
 		if (evt.getSource() == helpNextButton){
 			newHelpPanel.intHelpPage++;
+			// if intHelpPage is on the maximum page, helpNextButton is disabled
+			if (newHelpPanel.intHelpPage == 5){
+				helpNextButton.setEnabled(false);
+			}
+			// always reenable the helpBackButton if helpNextButton is pressed as page will never be at the minimum
+			helpBackButton.setEnabled(true);
+		// if you press the helpBackButton, the help page number will decrease
 		} else if (evt.getSource() == helpBackButton){
 			newHelpPanel.intHelpPage--;
+			// if intHelpPage is at 1 (min), helpBackButton is disabled
+			if (newHelpPanel.intHelpPage == 1){
+				helpBackButton.setEnabled(false);
+			}
+			// always re-enable helpNextButton if helpBackButton is pressed as page will never be at the maximum
+			helpNextButton.setEnabled(true);
 		}
 	}
-	//ChangeListener method override
+	
+	// if the sliders are changed
 	public void stateChanged(ChangeEvent evt){
-		//If you change the mass slider, it will constnatly update the massslider's value and set the textfield to be the value of what the mass slider is
 		if(evt.getSource() == massSlider){
+			// change mass accordingly
 			thePanel.dblMass = massSlider.getValue();
 			System.out.println("massSlider change");
 			System.out.println("The mass is " + thePanel.dblMass);
 			massText.setText(Integer.toString((int)thePanel.dblMass));
         } 
-      	//If you change the radius slider, it will constnatly update the radiusslider's value and set the textfield to be the value of what the radius slider is
 		if(evt.getSource() == radiusSlider){
+			// change radius accordingly
 			thePanel.dblRadius = radiusSlider.getValue();
 			System.out.println("radius sliderChange");
 			System.out.println("The radius is " + thePanel.dblRadius);
 			radiusText.setText(Integer.toString((int)thePanel.dblRadius));
         }
-        //If you change the period slider, it will constnatly update the periodslider's value and set the textfield to be the value of what the period slider is
         if(evt.getSource() == periodSlider){
+			// change period accordingly
 			thePanel.dblPeriod = Double.valueOf(periodSlider.getValue())/10;
 			System.out.println("period sliderChange");
 			System.out.println("The period is " + thePanel.dblPeriod);
@@ -585,7 +615,6 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		testQuestion3AnswerD.setLocation(10, 450);
 		newTestPanel.add(testQuestion3AnswerD);
 		
-		//Added actionlistener to the finish and retry button and set font, size, and location of the finish and retry button and added to the testpanel
 		finishButton.addActionListener(this);
 		finishButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		finishButton.setSize(100, 20);
@@ -601,17 +630,14 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		answersLabel.setSize(250, 20);
 		newTestPanel.add(answersLabel);
 		retryButton.addActionListener(this);
-		
-		//Set size, font, location and added the namelabel to the testpanel
 		nameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		nameLabel.setSize(100, 20);
 		nameLabel.setLocation(10, 20);
 		newTestPanel.add(nameLabel);
-		//Set size, location and added the textfield of the name to the testpanel
 		nameText.setSize(100, 20);
 		nameText.setLocation(75, 20);
 		newTestPanel.add(nameText);
-		//Set size, location, font, and added actionlistener to the helpnextbutton and the helpbackbutton. Also added it the the helppanel. 
+
 		helpNextButton.setSize(100, 20);
 		helpNextButton.setLocation(850,510);
 		helpNextButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -623,14 +649,12 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		newHelpPanel.add(helpNextButton);
 		newHelpPanel.add(helpBackButton);
 
-		//Added the force label to the panel and set font, size, and location so that it constnatly changes as it updates
+		
 		fcLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		fcLabel.setSize(100,100);
 		fcLabel.setLocation(665 + thePanel.intTracerRadius/2, 235);
 		thePanel.add(fcLabel);
-		
-		//Set the default content pane of the frame to be the home panel. Made sure that the frame is packed and can close and cannot be resizable. 
-		//Made the frame visible
+
 		theFrame.setContentPane(thePanel);
 		theFrame.pack();
 		theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -16,11 +16,23 @@ public class creditpanel extends JPanel{
 	}
 	
 	public creditpanel(){
-		try{
-		//Initalizing the image to read from the folder
-			imgSTA = ImageIO.read(new File("stalogo.png"));
-		}catch(Exception e){
-			System.out.println("Unable to find image");
+		InputStream imageclass = null;
+		imageclass = this.getClass().getResourceAsStream("stalogo.png");
+		if (imageclass == null){
+		} else {
+			try{
+			//Initalizing the image to read from the folder
+				imgSTA = ImageIO.read(new File("stalogo.png"));
+			}catch(Exception e){
+				System.out.println("Unable to find image from jar");
+			}
+		}
+		if (imgSTA == null){
+			try{
+				imgSTA = ImageIO.read(new File("stalogo.png"));
+			} catch (IOException e){
+				System.out.println("Unable to load image");
+			}
 		}
 	}
 
