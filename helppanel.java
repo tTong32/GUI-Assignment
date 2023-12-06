@@ -20,6 +20,11 @@ public class helppanel extends JPanel{
 		g.setColor(Color.WHITE);
 		g.fillRect(0,0,980,540);
 
+		if (intHelpPage < 1){
+			intHelpPage = 1;
+		} else if (intHelpPage > 5){
+			intHelpPage = 5;
+		}
 		if (intHelpPage == 1){
 			g.drawImage(imgHelp1, 0, 0, null);
 		} else if (intHelpPage == 2){

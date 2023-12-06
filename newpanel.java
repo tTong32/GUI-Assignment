@@ -79,62 +79,87 @@ public class newpanel extends JPanel{
 
 		// and if else if chain setting the size and color of the force rectangle indicator
 		if (dblForceCentr > 0 && dblForceCentr < 200 && dblPeriod != 0){
+			// once forceCentr becomes too small, set the force rectangle to a minimum size
 			forceRect.height = 1;
 			forceRect.width = intTracerRadius;
 			forceRect.y = 270;
 		} else if (dblPeriod == 0 || dblForceCentr == 0){
+			// if period or forceCentr are 0, hide the rectangle
 			forceRect.height = 0;
 			forceRect.width = 0;
 		} else if (dblForceCentr > 10000){
 			try{
+				// Once dblForceCentr exceeds 10000, instead of increasing the size, increase the color
 				intForceG = 180 - (int)(dblForceCentr/400);
 				intForceB = 180 - (int)(dblForceCentr/400);
 				forceColor = new Color(intForceR, intForceG, intForceB);
 			} catch (IllegalArgumentException e){
-				intForceR = 255 - (int)(dblForceCentr*1.5/100000);
+				// however, RGB ranges from 0-255, therefore the darkness will increase once the range is exceeded
+				intForceR = 255 - (int)(dblForceCentr*1.5/100000); // made such that the range 0-255 will never be exceeded
 				intForceB = 0;
 				intForceG = 0;
 				forceColor = new Color(intForceR, intForceG, intForceB);
 			}
+			// Draw the rectangle with a minimum height of 50
 			forceRect.width = intTracerRadius;
 			forceRect.height = 50;
 			forceRect.y = (245);
 		} else {
+			// if Centripetal force is between 200 and 10000, increase the size of the force indicator rectangle
 			forceRect.width = intTracerRadius;
 			forceRect.height = (int)dblForceCentr/200;
 			forceRect.y = (int)(270 - dblForceCentr/400);
 		}
 
+		// Draw out the UI
 		g.setColor(greyColor);
 		g.fillRect(0, 0, 400, 540);
 		
 		g.setColor(Color.WHITE);
 		g.fillRect(400,0,560,540);
 		
+		// Draw the tracer indicator as a circle
 		g.setColor(Color.RED);
+		// Tracer must be created such that the middle of the tracer line is positioned on the middle of the mass
 		g.fillOval(690 - intTracerRadius, 270 - intTracerRadius, intTracerDiameter, intTracerDiameter);
 		
+		// White out the middle of the circle
 		g.setColor(Color.WHITE);
+		// The larger the mass, the larger larger the circle indicator
 		g.fillOval(690 - intTracerRadius + intTracerWidth, 270 - intTracerRadius + intTracerWidth, intTracerDiameter - intTracerWidth*2, intTracerDiameter - intTracerWidth*2);
 
+		// Draw out the force rectangle using the calculated force color
 		g.setColor(forceColor);
 		g2d.fill(rForceRect);
 
+		// Draw the mass, with size based on it's mass. Adjust its position accordingly such that it won't be shifted off center
 		g.setColor(Color.RED);
 		g.fillOval(intPosX - (intMass / 2), intPosY - (intMass / 2), intMass, intMass);
 		
+		// if period = 0, then the image should be frozen, therefore the rotation should only occur if period != 0
 		if (dblPeriod != 0){
+			// 1 revolution occurs every 360 degrees
 			dblDegrees += 360/(48*dblPeriod);
+
+			// The mass starts on the right side of the circle @ 0 degrees, where cos0 = 1 and sin0 = 0
+			// Therefore, the movement of the mass can be graphically shown through cos and sin equations
 			intPosY = (int)((dblRadius * 5)*(Math.sin(Math.toRadians(dblDegrees)))+ 270);
 			intPosX = (int)((dblRadius * 5)*(Math.cos(Math.toRadians(dblDegrees)))+ 690);
-			t.translate(690, 270);
-			t.rotate(Math.toRadians(360/(48*dblPeriod)));
-			t.translate(-690, -270);
-			rForceRect = t.createTransformedShape(forceRect);
-		} 
-		
 
-		//System.out.println("Centripedal force is: " + dblForceCentr);
+			// AffineTransform - seems to work backwards
+			// move the rectagnle back towards the original point, except now it's rotated
+			t.translate(690, 270);
+			//rotate the rectangle however many degrees
+			t.rotate(Math.toRadians(360/(48*dblPeriod)));
+			// move the rectangle towards origin, or (0,0)
+			t.translate(-690, -270);
+
+			// Draw the rotated rectangle
+			rForceRect = t.createTransformedShape(forceRect);
+		} else if (dblPeriod == 0){
+			// Draw the new "hidden" rectangle
+			rForceRect = t.createTransformedShape(forceRect);
+		}
 	}
 
 }

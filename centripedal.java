@@ -98,29 +98,31 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JButton finishButton = new JButton("Finish");
 	JButton retryButton = new JButton("Retry");
 
+	// The label for the rotating Fc, or centripetal force
 	JLabel fcLabel = new JLabel("Fc");
-	Timer forceTimer = new Timer(2, this);
 
-	boolean blnForceTextChange = false;
-	boolean blnMousePressed = false;
-	int intChangeSlider;
-	int intSecondaryChange;
+	// Buttons used for the help screen
+	JButton helpNextButton = new JButton("Next");
+	JButton helpBackButton = new JButton("Back");
 
 	// Methods
 	public void actionPerformed(ActionEvent evt){
+		// The timer used to repaint the panel
 		if (evt.getSource() == theTimer){
-			thePanel.repaint();
-			forceText.setText(Integer.toString((int)(thePanel.dblForceCentr)));
-			int intFCFontSize = thePanel.intTracerRadius/3;			
-			int intFCPosX = (int)((thePanel.intTracerRadius/2)*(Math.cos(Math.toRadians(thePanel.dblDegrees)))+ 690 - intFCFontSize/2);
-			int intFCPosY = (int)((thePanel.intTracerRadius/2)*(Math.sin(Math.toRadians(thePanel.dblDegrees)))+ 270 - intFCFontSize/2);
-			fcLabel.setFont(new Font("Times New Roman", Font.PLAIN, intFCFontSize));
-			fcLabel.setLocation(intFCPosX, intFCPosY);
+			if (theFrame.getContentPane() == thePanel){
+				thePanel.repaint();
+				forceText.setText(Integer.toString((int)(thePanel.dblForceCentr)));
+				int intFCFontSize = thePanel.intTracerRadius/3;			
+				int intFCPosX = (int)((thePanel.intTracerRadius/2)*(Math.cos(Math.toRadians(thePanel.dblDegrees)))+ 690 - intFCFontSize/2);
+				int intFCPosY = (int)((thePanel.intTracerRadius/2)*(Math.sin(Math.toRadians(thePanel.dblDegrees)))+ 270 - intFCFontSize/2);
+				fcLabel.setFont(new Font("Times New Roman", Font.PLAIN, intFCFontSize));
+				fcLabel.setLocation(intFCPosX, intFCPosY);
+			}
+			if (theFrame.getContentPane() == newHelpPanel){
+				newHelpPanel.repaint();
+			}	
 		}
-		if (evt.getSource() == forceTimer){
-			blnForceTextChange = false;
-			forceTimer.stop();
-		}
+
 		//If the user clicks on the help menu item, it will set the frame to the help panel and repaint
 		if(evt.getSource() == helpItem){
 			theFrame.setVisible(false);
@@ -128,25 +130,25 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			theFrame.setVisible(true);
 			theFrame.repaint();
 		//If the user clicks on the home menu item, it will set the frame to the home panel and repaint
-		}if(evt.getSource() == homeItem){
+		} else if(evt.getSource() == homeItem){
 			theFrame.setVisible(false);
 			theFrame.setContentPane(thePanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
 		//If the user clicks on the credit menu item, it will set the frame to the credit panel and repaint
-		}if(evt.getSource() == creditItem){
+		} else if(evt.getSource() == creditItem){
 			theFrame.setVisible(false);
 			theFrame.setContentPane(newCreditPanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
 		//If the user clicks on the test menu item, it will set the frame to the test panel and repaint
-		}if(evt.getSource() == testItem){
+		} else if(evt.getSource() == testItem){
 			theFrame.setVisible(false);
 			theFrame.setContentPane(newTestPanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
-		//If use clicks on teh leaderboard menu item, it will read the file from leaderboard.txt and put it inside the leaderboard text area. It will also set the frame to the leaderboard panel and repaint
-		}if(evt.getSource() == leaderboardItem){
+		//If user clicks on the leaderboard menu item, it will read the file from leaderboard.txt and put it inside the leaderboard text area. It will also set the frame to the leaderboard panel and repaint
+		} else if(evt.getSource() == leaderboardItem){
 			try{
 				String strLine = "";
 				BufferedReader reader = new BufferedReader(new FileReader("leaderboard.txt"));
@@ -164,17 +166,18 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			theFrame.setContentPane(newLeaderboardPanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
+		}
 		//If the user clicks on the question 1 combo box in testpanel, it will get the index of your answer inside of a variable
-		}if(evt.getSource() == question1Menu){
+		if(evt.getSource() == question1Menu){
 			int question1Answer = question1Menu.getSelectedIndex();
 		//If the user clicks on the question 2 combo box in testpanel, it will get the index of your answer inside of a variable
-		}if(evt.getSource() == question2Menu){
+		} else if(evt.getSource() == question2Menu){
 			int question2Answer = question2Menu.getSelectedIndex();
 		//If the user clicks on the question 3 combo box in testpanel, it will get the index of your answer inside of a variable
-		}if(evt.getSource() == question3Menu){
+		} else if(evt.getSource() == question3Menu){
 			int question3Answer = question3Menu.getSelectedIndex();
 		//If the user clicks on teh finish button, it will get the final selected index of all the comboboxes. It will then check if you got the right answers and increase the variable correctAnswers by one
-		}if(evt.getSource() == finishButton){
+		} else if(evt.getSource() == finishButton){
 			int question1Answer = question1Menu.getSelectedIndex();
 			int question2Answer = question2Menu.getSelectedIndex();
 			int question3Answer = question3Menu.getSelectedIndex();
@@ -204,9 +207,10 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			}catch(IOException e){
 				System.out.println("Cannot find file");
 			}
+		}
 		//If they click the retry button in the testpanel, then it will reset the menus to 0 and reset the name text field. 
 		//It will also enable all the menus, the finish button, and nametext again. Will disable the retry button
-		}if(evt.getSource() == retryButton){
+		if(evt.getSource() == retryButton){
 			nameText.setText("");
 			question1Menu.setSelectedIndex(0);
 			question2Menu.setSelectedIndex(0);
@@ -247,16 +251,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 					radiusText.setText("50");
 				}
 				forceText.setText(Integer.toString((int)(thePanel.dblForceCentr)));
-			}
-			if (evt.getSource() == forceText){
-				blnForceTextChange = true;
-				forceTimer.start();
-				if(Integer.parseInt(forceText.getText()) < 0){
-					forceText.setText("0");
-				} else if(Integer.parseInt(forceText.getText()) > 10000000){
-					forceText.setText("10000000");
-				}
-			}			
+			}		
 		} catch (NumberFormatException e){
 			JFrame errorFrame = new JFrame("Error Message");
 			JPanel errorPanel = new JPanel();
@@ -276,6 +271,12 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			errorFrame.setLocationRelativeTo(theFrame);
 			errorFrame.setResizable(false);
 			errorFrame.setVisible(true);
+		}
+
+		if (evt.getSource() == helpNextButton){
+			newHelpPanel.intHelpPage++;
+		} else if (evt.getSource() == helpBackButton){
+			newHelpPanel.intHelpPage--;
 		}
 	}
 	
@@ -558,6 +559,18 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		nameText.setSize(100, 20);
 		nameText.setLocation(75, 20);
 		newTestPanel.add(nameText);
+
+		helpNextButton.setSize(100, 20);
+		helpNextButton.setLocation(850,510);
+		helpNextButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		helpNextButton.addActionListener(this);
+		helpBackButton.setSize(100,20);
+		helpBackButton.setLocation(30, 510);
+		helpBackButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		helpBackButton.addActionListener(this);
+		newHelpPanel.add(helpNextButton);
+		newHelpPanel.add(helpBackButton);
+
 		
 		fcLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		fcLabel.setSize(100,100);
