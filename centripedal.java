@@ -37,7 +37,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JMenuItem helpItem = new JMenuItem("Help");
 	JMenuItem creditItem = new JMenuItem("Credits");
 	JMenuItem testItem = new JMenuItem("Test");
-	JMenuItem leaderboardItem = new JMenuItem("Leaderboard");
+	JMenuItem leaderboardItem = new JMenuItem("Results");
 	
 	//Mass Label, slider, and textfield for the newpanel
 	JLabel massLabel = new JLabel("Mass (kg)");
@@ -440,7 +440,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		periodLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		periodLabel.setSize(250, 200);
 		periodLabel.setLocation(30, 190);
-		thePanel.add(periodLabel);
+		thePanel.add(periodLabel);	
 		periodText.setSize(120,40);
 		periodText.setText("8.0");
 		periodText.addActionListener(this);
