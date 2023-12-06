@@ -45,6 +45,7 @@ public class helppanel extends JPanel{
 	
 	//Constructor
 	public helppanel(){
+		// find the images through the jar file
 		InputStream imageclass1 = null;
 		imageclass1 = this.getClass().getResourceAsStream("helpScreen1.jpg");
 

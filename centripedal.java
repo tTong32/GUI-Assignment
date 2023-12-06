@@ -81,20 +81,20 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	String[] question2Box = {"a", "b", "c", "d"};
 	JComboBox question2Menu = new JComboBox(question2Box);
 	//JLabels for the test questions and its possible answers in the multiple choice question
-	JLabel testQuestion2Label = new JLabel("2. Which of the following is a necessary condition for an object to move in a circular path?");
-	JLabel testQuestion2AnswerA = new JLabel("a. Constant speed.");
-	JLabel testQuestion2AnswerB = new JLabel("b. Constant velocity.");
-	JLabel testQuestion2AnswerC = new JLabel("c. Constant acceleration");
-	JLabel testQuestion2AnswerD = new JLabel("d. Constant displacement.");
-	//Question e combobox to go through a, b, c, d and allows you to pick a choice between the 4 optinos
+	JLabel testQuestion2Label = new JLabel("2. If force and period stay constant, what occurs to mass when radius increases by an x factor?");
+	JLabel testQuestion2AnswerA = new JLabel("a. Mass changes randomly");
+	JLabel testQuestion2AnswerB = new JLabel("b. Mass does not change");
+	JLabel testQuestion2AnswerC = new JLabel("c. Mass increases by the same factor");
+	JLabel testQuestion2AnswerD = new JLabel("d. Mass decreases by an x factor.");
+	//Question e combobox to go through a, b, c, d and allows you to pick a choice between the 4 options
 	String[] question3Box = {"a", "b", "c", "d"};
 	JComboBox question3Menu = new JComboBox(question3Box);
 	//JLabels for the test questions and its possible answers in the multiple choice question
-	JLabel testQuestion3Label = new JLabel("3. In circular motion, what is the direction of the centripetal force?");
-	JLabel testQuestion3AnswerA = new JLabel("a. Outward from the center of the circle");
-	JLabel testQuestion3AnswerB = new JLabel("b. Tangential to the circle");
-	JLabel testQuestion3AnswerC = new JLabel("c. Radial, toward the center of the circle");
-	JLabel testQuestion3AnswerD = new JLabel("d. Opposite to the direction of motion");
+	JLabel testQuestion3Label = new JLabel("3. What is the observed equation to calculate centripetal force?");
+	JLabel testQuestion3AnswerA = new JLabel("a. (Mass^2 x Radius^2) / Period^3");
+	JLabel testQuestion3AnswerB = new JLabel("b. (Mass x Radius) / Period");
+	JLabel testQuestion3AnswerC = new JLabel("c. (4 x Mass x Radius) / Period^2");
+	JLabel testQuestion3AnswerD = new JLabel("d. The calculated centripetal force is random");
 	JButton finishButton = new JButton("Finish");
 	JButton retryButton = new JButton("Retry");
 
@@ -526,7 +526,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		newTestPanel.add(testQuestion1AnswerD);
 		
 		//Set the location, size for the jcombobox of question 2. Added actionlistener to the question1menu so that it could read the user's input
-		question2Menu.setLocation(750, 215);
+		question2Menu.setLocation(770, 215);
 		question2Menu.setSize(50, 25);
 		question2Menu.addActionListener(this);
 		//Set font, size, and location for the question 2 label and added to the testpanel
@@ -556,7 +556,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		newTestPanel.add(testQuestion2AnswerD);
 		
 		//Set the location, size for the jcombobox of question 3. Added actionlistener to the question1menu so that it could read the user's input
-		question3Menu.setLocation(550, 365);
+		question3Menu.setLocation(525, 365);
 		question3Menu.setSize(50, 25);
 		question3Menu.addActionListener(this);
 		//Set font, size, and location for the question 2 label and added to the testpanel
