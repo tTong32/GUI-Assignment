@@ -628,7 +628,9 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		fcLabel.setSize(100,100);
 		fcLabel.setLocation(665 + thePanel.intTracerRadius/2, 235);
 		thePanel.add(fcLabel);
-
+		
+		//Set the default content pane of the frame to be the home panel. Made sure that the frame is packed and can close and cannot be resizable. 
+		//Made the frame visible
 		theFrame.setContentPane(thePanel);
 		theFrame.pack();
 		theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
