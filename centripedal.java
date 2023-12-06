@@ -84,6 +84,9 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JLabel fcLabel = new JLabel("Fc");
 	Timer forceTimer = new Timer(2, this);
 
+	JButton helpNextButton = new JButton("Next");
+	JButton helpBackButton = new JButton("Back");
+
 	boolean blnForceTextChange = false;
 	boolean blnMousePressed = false;
 	int intChangeSlider;
@@ -92,13 +95,18 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	// Methods
 	public void actionPerformed(ActionEvent evt){
 		if (evt.getSource() == theTimer){
-			thePanel.repaint();
-			forceText.setText(Integer.toString((int)(thePanel.dblForceCentr)));
-			int intFCFontSize = thePanel.intTracerRadius/3;			
-			int intFCPosX = (int)((thePanel.intTracerRadius/2)*(Math.cos(Math.toRadians(thePanel.dblDegrees)))+ 690 - intFCFontSize/2);
-			int intFCPosY = (int)((thePanel.intTracerRadius/2)*(Math.sin(Math.toRadians(thePanel.dblDegrees)))+ 270 - intFCFontSize/2);
-			fcLabel.setFont(new Font("Times New Roman", Font.PLAIN, intFCFontSize));
-			fcLabel.setLocation(intFCPosX, intFCPosY);
+			if (theFrame.getContentPane() == thePanel){
+				thePanel.repaint();
+				forceText.setText(Integer.toString((int)(thePanel.dblForceCentr)));
+				int intFCFontSize = thePanel.intTracerRadius/3;			
+				int intFCPosX = (int)((thePanel.intTracerRadius/2)*(Math.cos(Math.toRadians(thePanel.dblDegrees)))+ 690 - intFCFontSize/2);
+				int intFCPosY = (int)((thePanel.intTracerRadius/2)*(Math.sin(Math.toRadians(thePanel.dblDegrees)))+ 270 - intFCFontSize/2);
+				fcLabel.setFont(new Font("Times New Roman", Font.PLAIN, intFCFontSize));
+				fcLabel.setLocation(intFCPosX, intFCPosY);
+			}
+			if (theFrame.getContentPane() == newHelpPanel){
+				newHelpPanel.repaint();
+			}				
 		}
 		if (evt.getSource() == forceTimer){
 			blnForceTextChange = false;
@@ -109,22 +117,22 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			theFrame.setContentPane(newHelpPanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
-		}if(evt.getSource() == homeItem){
+		} else if(evt.getSource() == homeItem){
 			theFrame.setVisible(false);
 			theFrame.setContentPane(thePanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
-		}if(evt.getSource() == creditItem){
+		} else if(evt.getSource() == creditItem){
 			theFrame.setVisible(false);
 			theFrame.setContentPane(newCreditPanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
-		}if(evt.getSource() == testItem){
+		} else if(evt.getSource() == testItem){
 			theFrame.setVisible(false);
 			theFrame.setContentPane(newTestPanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
-		}if(evt.getSource() == leaderboardItem){
+		} else if(evt.getSource() == leaderboardItem){
 			try{
 				String strLine = "";
 				BufferedReader reader = new BufferedReader(new FileReader("leaderboard.txt"));
@@ -142,7 +150,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			theFrame.setContentPane(newLeaderboardPanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
-		}if(evt.getSource() == question1Menu){
+		}
+		if(evt.getSource() == question1Menu){
 			int question1Answer = question1Menu.getSelectedIndex();
 			if(question1Answer==0){
 				System.out.println("Your answer to the question was a");
@@ -153,7 +162,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			}else if(question1Answer == 3){
 				System.out.println("Your answer to the question was d");
 			}
-		}if(evt.getSource() == question2Menu){
+		} else if(evt.getSource() == question2Menu){
 			int question2Answer = question2Menu.getSelectedIndex();
 			if(question2Answer==0){
 				System.out.println("Your answer to the question was a");
@@ -164,7 +173,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			}else if(question2Answer == 3){
 				System.out.println("Your answer to the question was d");
 			}
-		}if(evt.getSource() == question3Menu){
+		} else if(evt.getSource() == question3Menu){
 			int question3Answer = question3Menu.getSelectedIndex();
 			if(question3Answer==0){
 				System.out.println("Your answer to the question was a");
@@ -175,7 +184,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			}else if(question3Answer == 3){
 				System.out.println("Your answer to the question was d");
 			}
-		}if(evt.getSource() == finishButton){
+		} else if(evt.getSource() == finishButton){
 			int question1Answer = question1Menu.getSelectedIndex();
 			int question2Answer = question2Menu.getSelectedIndex();
 			int question3Answer = question3Menu.getSelectedIndex();
@@ -204,7 +213,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			}catch(IOException e){
 				System.out.println("Cannot find file");
 			}
-		}if(evt.getSource() == retryButton){
+		} else if(evt.getSource() == retryButton){
 			nameText.setText("");
 			question1Menu.setSelectedIndex(0);
 			question2Menu.setSelectedIndex(0);
@@ -273,6 +282,11 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			errorFrame.setLocationRelativeTo(theFrame);
 			errorFrame.setResizable(false);
 			errorFrame.setVisible(true);
+		}
+		if (evt.getSource() == helpNextButton){
+			newHelpPanel.intHelpPage++;
+		} else if (evt.getSource() == helpBackButton){
+			newHelpPanel.intHelpPage--;
 		}
 	}
 	
@@ -546,6 +560,17 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		nameText.setLocation(75, 20);
 		newTestPanel.add(nameText);
 		
+		helpNextButton.setSize(100, 20);
+		helpNextButton.setLocation(850,510);
+		helpNextButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		helpNextButton.addActionListener(this);
+		helpBackButton.setSize(100,20);
+		helpBackButton.setLocation(30, 510);
+		helpBackButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		helpBackButton.addActionListener(this);
+		newHelpPanel.add(helpNextButton);
+		newHelpPanel.add(helpBackButton);
+
 		fcLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		fcLabel.setSize(100,100);
 		fcLabel.setLocation(665 + thePanel.intTracerRadius/2, 235);
