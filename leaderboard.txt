@@ -1,7 +1,2 @@
-Results
-Justin: 0 answers correct
-hello: 0 answers correct
-Poonie Woonie: 1 answers correct
-ni hao: 1 answers correct
-Pooner: 3 answers correct
-hlj: 0 answers correct
+
+a: 3 answers correct

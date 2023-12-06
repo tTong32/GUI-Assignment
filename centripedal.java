@@ -176,8 +176,9 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		//If the user clicks on the question 3 combo box in testpanel, it will get the index of your answer inside of a variable
 		} else if(evt.getSource() == question3Menu){
 			int question3Answer = question3Menu.getSelectedIndex();
-		//If the user clicks on teh finish button, it will get the final selected index of all the comboboxes. It will then check if you got the right answers and increase the variable correctAnswers by one
+		//If the user clicks on the finish button, it will get the final selected index of all the comboboxes. It will then check if you got the right answers and increase the variable correctAnswers by one
 		} else if(evt.getSource() == finishButton){
+			correctAnswers = 0;
 			int question1Answer = question1Menu.getSelectedIndex();
 			int question2Answer = question2Menu.getSelectedIndex();
 			int question3Answer = question3Menu.getSelectedIndex();
@@ -646,6 +647,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		helpBackButton.setLocation(30, 510);
 		helpBackButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		helpBackButton.addActionListener(this);
+		helpBackButton.setEnabled(false);
 		newHelpPanel.add(helpNextButton);
 		newHelpPanel.add(helpBackButton);
 
