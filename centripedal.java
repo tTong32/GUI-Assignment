@@ -234,6 +234,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		//It will also enable all the menus, the finish button, and nametext again. Will disable the retry button
 		if(evt.getSource() == retryButton){
 			nameText.setText("");
+			answersLabel.setText("");
 			question1Menu.setSelectedIndex(0);
 			question2Menu.setSelectedIndex(0);
 			question3Menu.setSelectedIndex(0);
@@ -301,20 +302,23 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			newHelpPanel.intHelpPage--;
 		}
 	}
-	
+	//ChangeListener method override
 	public void stateChanged(ChangeEvent evt){
+		//If you change the mass slider, it will constnatly update the massslider's value and set the textfield to be the value of what the mass slider is
 		if(evt.getSource() == massSlider){
 			thePanel.dblMass = massSlider.getValue();
 			System.out.println("massSlider change");
 			System.out.println("The mass is " + thePanel.dblMass);
 			massText.setText(Integer.toString((int)thePanel.dblMass));
         } 
+      	//If you change the radius slider, it will constnatly update the radiusslider's value and set the textfield to be the value of what the radius slider is
 		if(evt.getSource() == radiusSlider){
 			thePanel.dblRadius = radiusSlider.getValue();
 			System.out.println("radius sliderChange");
 			System.out.println("The radius is " + thePanel.dblRadius);
 			radiusText.setText(Integer.toString((int)thePanel.dblRadius));
         }
+        //If you change the period slider, it will constnatly update the periodslider's value and set the textfield to be the value of what the period slider is
         if(evt.getSource() == periodSlider){
 			thePanel.dblPeriod = Double.valueOf(periodSlider.getValue())/10;
 			System.out.println("period sliderChange");
@@ -581,6 +585,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		testQuestion3AnswerD.setLocation(10, 450);
 		newTestPanel.add(testQuestion3AnswerD);
 		
+		//Added actionlistener to the finish and retry button and set font, size, and location of the finish and retry button and added to the testpanel
 		finishButton.addActionListener(this);
 		finishButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		finishButton.setSize(100, 20);
@@ -597,14 +602,16 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		newTestPanel.add(answersLabel);
 		retryButton.addActionListener(this);
 		
+		//Set size, font, location and added the namelabel to the testpanel
 		nameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		nameLabel.setSize(100, 20);
 		nameLabel.setLocation(10, 20);
 		newTestPanel.add(nameLabel);
+		//Set size, location and added the textfield of the name to the testpanel
 		nameText.setSize(100, 20);
 		nameText.setLocation(75, 20);
 		newTestPanel.add(nameText);
-
+		//Set size, location, font, and added actionlistener to the helpnextbutton and the helpbackbutton. Also added it the the helppanel. 
 		helpNextButton.setSize(100, 20);
 		helpNextButton.setLocation(850,510);
 		helpNextButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
@@ -616,7 +623,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		newHelpPanel.add(helpNextButton);
 		newHelpPanel.add(helpBackButton);
 
-		
+		//Added the force label to the panel and set font, size, and location so that it constnatly changes as it updates
 		fcLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		fcLabel.setSize(100,100);
 		fcLabel.setLocation(665 + thePanel.intTracerRadius/2, 235);
