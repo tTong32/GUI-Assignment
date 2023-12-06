@@ -10,6 +10,7 @@ import javax.swing.event.*;
 
 public class centripedal implements ActionListener, KeyListener, MouseListener, MouseMotionListener, ChangeListener{
 	// Properties
+	//The frame and the panels are listed
 	JFrame theFrame = new JFrame("GUI Project");
 	newpanel thePanel = new newpanel();
 	helppanel newHelpPanel = new helppanel();
@@ -17,17 +18,19 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	testpanel newTestPanel = new testpanel();
 	leaderboard newLeaderboardPanel = new leaderboard();
 	
-	int correctAnswers = 0;
+	//Initializing JLabel for the credit screen
 	JLabel creditLabel = new JLabel("The students Addison and Thomson");
 	JLabel creditLabel2 = new JLabel("at St. Augustine CHS Computer Science");
 	JLabel creditLabel3 = new JLabel("made this program");
+	
+	//Initalizing timer for the animation
 	Timer theTimer = new Timer(1000/48, this);
-	String strCorrectAnswers = "";
-	JLabel answersLabel = new JLabel();
-	String strName = "";
+	
+	//The leaderboard's text area and also the leaderboard's scroll pane to initialize
 	JTextArea lbTextArea = new JTextArea();
 	JScrollPane testScroll = new JScrollPane(lbTextArea);
 	
+	//JMenuBar, JMenu, and JMenuItem to make a menu to hold Home, help, credits, test, and leaderboard
 	JMenuBar menuBar = new JMenuBar();
 	JMenu openMenu = new JMenu("Menu");
 	JMenuItem homeItem = new JMenuItem("Home");
@@ -36,48 +39,62 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	JMenuItem testItem = new JMenuItem("Test");
 	JMenuItem leaderboardItem = new JMenuItem("Leaderboard");
 	
+	//Mass Label, slider, and textfield for the newpanel
 	JLabel massLabel = new JLabel("Mass (kg)");
 	JSlider massSlider = new JSlider(100, 500);
 	JTextField massText = new JTextField();
 	
+	//Radius Label, slider, and textfield for the new panel
 	JSlider radiusSlider = new JSlider(0, 50);
 	JLabel radiusLabel = new JLabel("Radius (m)");
 	JTextField radiusText = new JTextField();
 	
+	//Period label, slider, and textfield for the newpanel
 	JSlider periodSlider = new JSlider(0, 160);
 	JLabel periodLabel = new JLabel("Period (s)");
 	JTextField periodText = new JTextField();
-
+	
+	//Force label and and textfield for the newpanel
 	JLabel forceLabel = new JLabel("Force (π^2N)");
 	JTextField forceText = new JTextField();
 	
+	//Name label and textfield for the testpanel
 	JLabel nameLabel = new JLabel("Name");
 	JTextField nameText = new JTextField();
 	
+	//Making the variables for the test Screen
+	int correctAnswers = 0;
+	String strCorrectAnswers = "";
+	String strName = "";
+	//JLabel to display how many answers you got right after you click the finish button
+	JLabel answersLabel = new JLabel();
+	//Question 1 combobox to go through a, b, c, d and allows you to pick a choice between the 4 options
 	String[] question1Box = {"a", "b", "c", "d"};
 	JComboBox question1Menu = new JComboBox(question1Box);
+	//JLabels for the test question and its possible answers in the multiple choice question
 	JLabel testQuestion1Label = new JLabel("1. What is the observed relationship between force and period?");
 	JLabel testQuestion1AnswerA = new JLabel("a. Force is indirectly proportional to period");
 	JLabel testQuestion1AnswerB = new JLabel("b. Force is directly proportional to period");
 	JLabel testQuestion1AnswerC = new JLabel("c. Force is directly proportional to period cubed");
 	JLabel testQuestion1AnswerD = new JLabel("d. Force is indirectly proportional to period squared."); 
-	
+	//Question 2 combobox to go through a, b, c, d and allows you to pick a choice between the 4 optinos
 	String[] question2Box = {"a", "b", "c", "d"};
 	JComboBox question2Menu = new JComboBox(question2Box);
+	//JLabels for the test questions and its possible answers in the multiple choice question
 	JLabel testQuestion2Label = new JLabel("2. Which of the following is a necessary condition for an object to move in a circular path?");
 	JLabel testQuestion2AnswerA = new JLabel("a. Constant speed.");
 	JLabel testQuestion2AnswerB = new JLabel("b. Constant velocity.");
 	JLabel testQuestion2AnswerC = new JLabel("c. Constant acceleration");
 	JLabel testQuestion2AnswerD = new JLabel("d. Constant displacement.");
-	
+	//Question e combobox to go through a, b, c, d and allows you to pick a choice between the 4 optinos
 	String[] question3Box = {"a", "b", "c", "d"};
 	JComboBox question3Menu = new JComboBox(question3Box);
+	//JLabels for the test questions and its possible answers in the multiple choice question
 	JLabel testQuestion3Label = new JLabel("3. In circular motion, what is the direction of the centripetal force?");
 	JLabel testQuestion3AnswerA = new JLabel("a. Outward from the center of the circle");
 	JLabel testQuestion3AnswerB = new JLabel("b. Tangential to the circle");
 	JLabel testQuestion3AnswerC = new JLabel("c. Radial, toward the center of the circle");
 	JLabel testQuestion3AnswerD = new JLabel("d. Opposite to the direction of motion");
-	
 	JButton finishButton = new JButton("Finish");
 	JButton retryButton = new JButton("Retry");
 
@@ -104,26 +121,31 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			blnForceTextChange = false;
 			forceTimer.stop();
 		}
+		//If the user clicks on the help menu item, it will set the frame to the help panel and repaint
 		if(evt.getSource() == helpItem){
 			theFrame.setVisible(false);
 			theFrame.setContentPane(newHelpPanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
+		//If the user clicks on the home menu item, it will set the frame to the home panel and repaint
 		}if(evt.getSource() == homeItem){
 			theFrame.setVisible(false);
 			theFrame.setContentPane(thePanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
+		//If the user clicks on the credit menu item, it will set the frame to the credit panel and repaint
 		}if(evt.getSource() == creditItem){
 			theFrame.setVisible(false);
 			theFrame.setContentPane(newCreditPanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
+		//If the user clicks on the test menu item, it will set the frame to the test panel and repaint
 		}if(evt.getSource() == testItem){
 			theFrame.setVisible(false);
 			theFrame.setContentPane(newTestPanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
+		//If use clicks on teh leaderboard menu item, it will read the file from leaderboard.txt and put it inside the leaderboard text area. It will also set the frame to the leaderboard panel and repaint
 		}if(evt.getSource() == leaderboardItem){
 			try{
 				String strLine = "";
@@ -142,39 +164,16 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			theFrame.setContentPane(newLeaderboardPanel);
 			theFrame.setVisible(true);
 			theFrame.repaint();
+		//If the user clicks on the question 1 combo box in testpanel, it will get the index of your answer inside of a variable
 		}if(evt.getSource() == question1Menu){
 			int question1Answer = question1Menu.getSelectedIndex();
-			if(question1Answer==0){
-				System.out.println("Your answer to the question was a");
-			}else if(question1Answer==1){
-				System.out.println("Your answer to the question was b");
-			}else if(question1Answer == 2){
-				System.out.println("Your answer to the question was c");
-			}else if(question1Answer == 3){
-				System.out.println("Your answer to the question was d");
-			}
+		//If the user clicks on the question 2 combo box in testpanel, it will get the index of your answer inside of a variable
 		}if(evt.getSource() == question2Menu){
 			int question2Answer = question2Menu.getSelectedIndex();
-			if(question2Answer==0){
-				System.out.println("Your answer to the question was a");
-			}else if(question2Answer==1){
-				System.out.println("Your answer to the question was b");
-			}else if(question2Answer == 2){
-				System.out.println("Your answer to the question was c");
-			}else if(question2Answer == 3){
-				System.out.println("Your answer to the question was d");
-			}
+		//If the user clicks on the question 3 combo box in testpanel, it will get the index of your answer inside of a variable
 		}if(evt.getSource() == question3Menu){
 			int question3Answer = question3Menu.getSelectedIndex();
-			if(question3Answer==0){
-				System.out.println("Your answer to the question was a");
-			}else if(question3Answer==1){
-				System.out.println("Your answer to the question was b");
-			}else if(question3Answer == 2){
-				System.out.println("Your answer to the question was c");
-			}else if(question3Answer == 3){
-				System.out.println("Your answer to the question was d");
-			}
+		//If the user clicks on teh finish button, it will get the final selected index of all the comboboxes. It will then check if you got the right answers and increase the variable correctAnswers by one
 		}if(evt.getSource() == finishButton){
 			int question1Answer = question1Menu.getSelectedIndex();
 			int question2Answer = question2Menu.getSelectedIndex();
@@ -188,15 +187,16 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			}
 			strCorrectAnswers = Integer.toString(correctAnswers);
 			strName = nameText.getText();
+		//Disables the nameText, the JComboboxes, and the finish Button. Shows teh answer label and sets the retry button to be enabled and clicked
 			this.nameText.setEnabled(false);
 			this.question1Menu.setEnabled(false);
 			this.question2Menu.setEnabled(false);
 			this.question3Menu.setEnabled(false);
 			answersLabel.setText("You got " + strCorrectAnswers + " correct answers.");
-			System.out.println("You have " + correctAnswers +" correct answers.");
 			this.finishButton.setEnabled(false);
 			this.retryButton.setEnabled(true);
 			lbTextArea.setText("");
+			//Makes a print writer variable to write text into the leaderboard.txt file
 			try{
 				PrintWriter leaderboardFile = new PrintWriter(new FileWriter("leaderboard.txt", true));
 				leaderboardFile.println(strName + ": " + strCorrectAnswers + " answers correct");
@@ -204,6 +204,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			}catch(IOException e){
 				System.out.println("Cannot find file");
 			}
+		//If they click the retry button in the testpanel, then it will reset the menus to 0 and reset the name text field. 
+		//It will also enable all the menus, the finish button, and nametext again. Will disable the retry button
 		}if(evt.getSource() == retryButton){
 			nameText.setText("");
 			question1Menu.setSelectedIndex(0);
@@ -214,6 +216,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			this.question3Menu.setEnabled(true);
 			this.nameText.setEnabled(true);
 			this.finishButton.setEnabled(true);
+			this.retryButton.setEnabled(false);
 		}
 		
 		try{
@@ -321,6 +324,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 
 	// Constructor
 	public centripedal(){
+		//Setting the panels dimensions and layout to null so that we don't need to use the default values
 		thePanel.setLayout(null);
 		newTestPanel.setLayout(null);
 		newHelpPanel.setLayout(null);
@@ -329,6 +333,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		newTestPanel.setPreferredSize(new Dimension(960, 540));
 		newHelpPanel.setPreferredSize(new Dimension(960, 540));
 		newCreditPanel.setPreferredSize(new Dimension(960, 540));
+		//Add menu bar to the JFrame
 		menuBar.add(openMenu);
 		openMenu.add(homeItem);
 		openMenu.add(helpItem);
@@ -337,12 +342,15 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		openMenu.add(leaderboardItem);
 		theFrame.setJMenuBar(menuBar);
 		
+		//Setting the leaderboard text area to be false
 		lbTextArea.setEditable(false);
+		//the testScroll is vertical and horizontal as needed. Added to the testpanel
 		testScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         testScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         newLeaderboardPanel.setLayout(new BorderLayout());
         newLeaderboardPanel.add(testScroll);
 		
+		//The creditlabel is set location, font, size and then added to the panel
 		creditItem.addActionListener(this);
 		creditLabel.setFont(new Font("Times New Roman", Font.PLAIN, 30));
 		creditLabel.setSize(600, 200);
@@ -357,6 +365,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		creditLabel3.setLocation(400, 350);
 		newCreditPanel.add(creditLabel3);
 		
+		//Added actionListeners and mouselisteners
 		leaderboardItem.addActionListener(this);
 		
 		helpItem.addActionListener(this);
@@ -365,6 +374,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 
 		thePanel.addMouseListener(this);
 
+		//Mass slider has the different ticks and set size and location and added changelistener and added to the panel 
 		massSlider.addChangeListener(this);
 		massSlider.setMajorTickSpacing(100);
 		massSlider.setMinorTickSpacing(25);
@@ -373,6 +383,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		massSlider.setSize(200, 50);
 		massSlider.setLocation(30, 80);
 		thePanel.add(massSlider);
+		//Mass label set font, size, location and added to the panel
 		massLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		massLabel.setSize(250, 200);
 		massLabel.setLocation(30, -50);
@@ -383,6 +394,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		massText.setText("300");
 		thePanel.add(massText);
 		
+		//Radius label set font, size, location and added to the panel and added changeListener to listen to the radiusSlider
 		radiusSlider.addChangeListener(this);
 		radiusSlider.setMajorTickSpacing(10);
 		radiusSlider.setMinorTickSpacing(5);
@@ -402,11 +414,15 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		radiusText.setText("25");
 		thePanel.add(radiusText);
 		
+		//Period slider has the different ticks and set size and location and added changelistener and added to the panel 
 		periodSlider.addChangeListener(this);
 		periodSlider.setMajorTickSpacing(200);
 		periodSlider.setMinorTickSpacing(100);
 		periodSlider.setPaintTicks(true);
 		periodSlider.setPaintLabels(true);
+		periodSlider.setSize(200, 50);
+		periodSlider.setLocation(30, 320);
+		thePanel.add(periodSlider);
 
 		java.util.Hashtable<Integer,JLabel> periodLabelTable = new java.util.Hashtable<Integer,JLabel>();
 		periodLabelTable.put(160, new JLabel("16"));
@@ -420,10 +436,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		periodLabelTable.put(0, new JLabel("0"));
 		periodSlider.setLabelTable(periodLabelTable);
 
-		periodSlider.setSize(200, 50);
-		periodSlider.setLocation(30, 320);
-		thePanel.add(periodSlider);
-
+		//Period label set font, size, location and added to the panel and added changeListener to listen to the radiusSlider
 		periodLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		periodLabel.setSize(250, 200);
 		periodLabel.setLocation(30, 190);

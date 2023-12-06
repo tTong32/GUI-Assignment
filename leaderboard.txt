@@ -8,3 +8,5 @@ thop: 0 answers correct
 nul: 0 answers correct
 uel: 0 answers correct
 Justin: 0 answers correct
+Addison: 1 answers correct
+hello: 0 answers correct
