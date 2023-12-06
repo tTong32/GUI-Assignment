@@ -29,8 +29,21 @@ public class newpanel extends JPanel{
 	double dblForceCentr; // in pi N
 
 	Rectangle forceRect = new Rectangle(690, 265, 0, 10);
+	Polygon arrowShape = new Polygon();  
+	Point arrowHeadPoint = new Point(690, 270);
+	Point arrowTopPoint = new Point(690, 265);
+	Point arrowBotPoint = new Point(690, 275);
+	arrowShape.addPoint(arrowHeadPoint);
+	arrowShape.addPoint(arrowTopPoint);
+	arrowShape.addPoint(arrowBotPoint);
+
 	AffineTransform t = new AffineTransform();
 	Shape rForceRect = t.createTransformedShape(forceRect);
+	Shape rArrowShape = t.createTransformedShape(arrowShape);
+
+
+	int arrowWidth;
+	int arrowHeight;
 	
 	int intMass = (int)dblMass / 10;
 	int intRadius = (int)dblRadius * 5;
@@ -39,7 +52,6 @@ public class newpanel extends JPanel{
 	int intTracerRadius = intRadius + intMass/8;
 	int intTracerWidth = intMass / 4;
 
-				
 	Color greyColor = new Color(247, 242, 242);
 
 	int intForceR = 255;
@@ -54,7 +66,7 @@ public class newpanel extends JPanel{
 		
 		intMass = (int)dblMass / 10;
 		intRadius = (int)dblRadius * 5;
-		
+
 		// The tracer is used to "map" out the movement of the ball
 		intTracerDiameter = intRadius*2 + intMass/4;
 		intTracerRadius = intRadius + intMass/8;
@@ -98,6 +110,12 @@ public class newpanel extends JPanel{
 			forceRect.y = (int)(270 - dblForceCentr/400);
 		}
 
+		arrowHeight = forceRect.height*3;
+		arrowWidth = forceRect.width/5;
+		arrowShape.addPoint(690 - arrowWidth + intTracerRadius/2,270);
+		arrowShape.addPoint(690 + arrowWidth + intTracerRadius/2,270 - arrowHeight);
+		arrowShape.addPoint(690 + arrowWidth +  intTracerRadius/2,270 + arrowHeight);
+
 		g.setColor(greyColor);
 		g.fillRect(0, 0, 400, 540);
 		
@@ -112,6 +130,7 @@ public class newpanel extends JPanel{
 
 		g.setColor(forceColor);
 		g2d.fill(rForceRect);
+		g2d.fill(arrowShape);
 
 		g.setColor(Color.RED);
 		g.fillOval(intPosX - (intMass / 2), intPosY - (intMass / 2), intMass, intMass);
@@ -120,11 +139,11 @@ public class newpanel extends JPanel{
 			dblDegrees += 360/(48*dblPeriod);
 			intPosY = (int)((dblRadius * 5)*(Math.sin(Math.toRadians(dblDegrees)))+ 270);
 			intPosX = (int)((dblRadius * 5)*(Math.cos(Math.toRadians(dblDegrees)))+ 690);
-			//g2d.rotate(Math.toRadians(dblDegrees), 690, 270);
 			t.translate(690, 270);
 			t.rotate(Math.toRadians(360/(48*dblPeriod)));
 			t.translate(-690, -270);
 
+			rArrowShape = t.createTransformedShape(arrowShape);
 			rForceRect = t.createTransformedShape(forceRect);
 		} 
 		
