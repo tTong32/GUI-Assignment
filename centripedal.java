@@ -183,29 +183,51 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 			int question3Answer = question3Menu.getSelectedIndex();
 			if(question1Answer == 3){
 				correctAnswers++;
-			}else if(question2Answer == 2){
+			}if(question2Answer == 2){
 				correctAnswers++;
-			}else if(question3Answer == 2){
+			}if(question3Answer == 2){
 				correctAnswers++;
 			}
 			strCorrectAnswers = Integer.toString(correctAnswers);
 			strName = nameText.getText();
-		//Disables the nameText, the JComboboxes, and the finish Button. Shows teh answer label and sets the retry button to be enabled and clicked
-			this.nameText.setEnabled(false);
-			this.question1Menu.setEnabled(false);
-			this.question2Menu.setEnabled(false);
-			this.question3Menu.setEnabled(false);
-			answersLabel.setText("You got " + strCorrectAnswers + " correct answers.");
-			this.finishButton.setEnabled(false);
-			this.retryButton.setEnabled(true);
-			lbTextArea.setText("");
-			//Makes a print writer variable to write text into the leaderboard.txt file
-			try{
-				PrintWriter leaderboardFile = new PrintWriter(new FileWriter("leaderboard.txt", true));
-				leaderboardFile.println(strName + ": " + strCorrectAnswers + " answers correct");
-				leaderboardFile.close();
-			}catch(IOException e){
-				System.out.println("Cannot find file");
+			//If they don't enter a name, it will make a new frame and pop up a message asking the user to enter a name
+			if(strName.equals("")){
+				JFrame noNameFrame = new JFrame("Message");
+				JPanel noNamePanel = new JPanel();
+				JLabel noNameLabel = new JLabel("Please enter a name");
+
+				noNameLabel.setSize(300, 50);
+				noNameLabel.setLocation(10, 0);
+				noNameLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+
+				noNamePanel.setLayout(null);
+				noNamePanel.setPreferredSize(new Dimension(290,50));
+				noNamePanel.add(noNameLabel);
+
+				noNameFrame.setContentPane(noNamePanel);
+				noNameFrame.pack();
+				noNameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				noNameFrame.setLocationRelativeTo(theFrame);
+				noNameFrame.setResizable(false);
+				noNameFrame.setVisible(true);
+			}else{
+				//Disables the nameText, the JComboboxes, and the finish Button. Shows teh answer label and sets the retry button to be enabled and clicked
+				this.nameText.setEnabled(false);
+				this.question1Menu.setEnabled(false);
+				this.question2Menu.setEnabled(false);
+				this.question3Menu.setEnabled(false);
+				answersLabel.setText("You got " + strCorrectAnswers + " correct answers.");
+				this.finishButton.setEnabled(false);
+				this.retryButton.setEnabled(true);
+				lbTextArea.setText("");
+				//Makes a print writer variable to write text into the leaderboard.txt file
+				try{
+					PrintWriter leaderboardFile = new PrintWriter(new FileWriter("leaderboard.txt", true));
+					leaderboardFile.println(strName + ": " + strCorrectAnswers + " answers correct");
+					leaderboardFile.close();
+				}catch(IOException e){
+					System.out.println("Cannot find file");
+				}
 			}
 		}
 		//If they click the retry button in the testpanel, then it will reset the menus to 0 and reset the name text field. 
@@ -407,7 +429,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		radiusLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		radiusLabel.setSize(250, 200);
 		radiusLabel.setLocation(30, 70);
-		radiusText.setSize(100, 30);
+		//Set the radius textfield's size, location and added actionlistener to listen to when the radius slider changes values, so does the textfield's value
 		thePanel.add(radiusLabel);
 		radiusText.setSize(120,40);
 		radiusText.setLocation(250, 180);
@@ -437,7 +459,8 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		periodLabelTable.put(0, new JLabel("0"));
 		periodSlider.setLabelTable(periodLabelTable);
 
-		//Period label set font, size, location and added to the panel and added changeListener to listen to the radiusSlider
+		//Period label set font, size, location and added to the panel
+		//Added actionlistener so when period slider changes values, so does the textfield's valueSet size, location and added the textfield to the panel
 		periodLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		periodLabel.setSize(250, 200);
 		periodLabel.setLocation(30, 190);
@@ -448,6 +471,9 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		periodText.setLocation(250, 300);
 		thePanel.add(periodText);
 		
+		//Force label set font, size, location and add to the panel. 
+		//Added actionlistener so when the force textfield changes  values based on our program 
+		//Set size, location and added the textfield to the panel
 		forceLabel.setFont(new Font("Times New Roman", Font.PLAIN, 40));
 		forceLabel.setSize(300, 200);
 		forceLabel.setLocation(30, 310);
@@ -459,78 +485,97 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 		forceText.setText(Integer.toString((int)thePanel.dblForceCentr));
 		thePanel.add(forceText);
 		
+		//Added the JComboboxes of question1, question2, and question3 menu to the testpanel
 		newTestPanel.add(question1Menu);
 		newTestPanel.add(question2Menu);
 		newTestPanel.add(question3Menu);
 		testItem.addActionListener(this);
-				
+		
+		//Set the location, size for the jcombobox of question 1. Added actionlistener to the question1menu so that it could read the user's input
 		question1Menu.setLocation(525, 60);
 		question1Menu.setSize(50, 25);
 		question1Menu.addActionListener(this);
+		//Set font, size, and location for the question 1 label and added to the testpanel
 		testQuestion1Label.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		testQuestion1Label.setSize(550, 200);
 		testQuestion1Label.setLocation(10,-25);
 		newTestPanel.add(testQuestion1Label);
+		//Set font, size, and location for "a" as  multiple choice answer to question 1 as a JLabel and added to the testpanel
 		testQuestion1AnswerA.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion1AnswerA.setSize(450, 50);
 		testQuestion1AnswerA.setLocation(10, 75);
 		newTestPanel.add(testQuestion1AnswerA);
+		//Set font, size, and location for "b" as  multiple choice answer to question 1 as a JLabel and added to the testpanel
 		testQuestion1AnswerB.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion1AnswerB.setSize(450, 50);
 		testQuestion1AnswerB.setLocation(10, 100);
 		newTestPanel.add(testQuestion1AnswerB);
+		//Set font, size, and location for "c" as  multiple choice answer to question 1 as a JLabel and added to the testpanel
 		testQuestion1AnswerC.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion1AnswerC.setSize(450, 50);
 		testQuestion1AnswerC.setLocation(10, 125);
 		newTestPanel.add(testQuestion1AnswerC);
+		//Set font, size, and location for "d" as  multiple choice answer to question 1 as a JLabel and added to the testpanel
 		testQuestion1AnswerD.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion1AnswerD.setSize(450, 50);
 		testQuestion1AnswerD.setLocation(10, 150);
 		newTestPanel.add(testQuestion1AnswerD);
 		
+		//Set the location, size for the jcombobox of question 2. Added actionlistener to the question1menu so that it could read the user's input
 		question2Menu.setLocation(750, 215);
 		question2Menu.setSize(50, 25);
 		question2Menu.addActionListener(this);
+		//Set font, size, and location for the question 2 label and added to the testpanel
 		testQuestion2Label.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		testQuestion2Label.setSize(900, 200);
 		testQuestion2Label.setLocation(10,125);
 		newTestPanel.add(testQuestion2Label);
+		//Set font, size, and location for "a" as  multiple choice answer to question 2 as a JLabel and added to the testpanel
 		testQuestion2AnswerA.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion2AnswerA.setSize(450, 50);
 		testQuestion2AnswerA.setLocation(10, 225);
 		newTestPanel.add(testQuestion2AnswerA);
+		//Set font, size, and location for "b" as  multiple choice answer to question 2 as a JLabel and added to the testpanel
 		testQuestion2AnswerB.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion2AnswerB.setSize(450, 50);
 		testQuestion2AnswerB.setLocation(10, 250);
 		newTestPanel.add(testQuestion2AnswerB);
+		//Set font, size, and location for "c" as  multiple choice answer to question 2 as a JLabel and added to the testpanel
 		testQuestion2AnswerC.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion2AnswerC.setSize(450, 50);
 		testQuestion2AnswerC.setLocation(10, 275);
 		newTestPanel.add(testQuestion2AnswerC);
+		//Set font, size, and location for "d" as  multiple choice answer to question 2 as a JLabel and added to the testpanel
 		testQuestion2AnswerD.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion2AnswerD.setSize(450, 50);
 		testQuestion2AnswerD.setLocation(10, 300);
 		newTestPanel.add(testQuestion2AnswerD);
 		
+		//Set the location, size for the jcombobox of question 3. Added actionlistener to the question1menu so that it could read the user's input
 		question3Menu.setLocation(550, 365);
 		question3Menu.setSize(50, 25);
 		question3Menu.addActionListener(this);
+		//Set font, size, and location for the question 2 label and added to the testpanel
 		testQuestion3Label.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		testQuestion3Label.setSize(900, 200);
 		testQuestion3Label.setLocation(10,275);
 		newTestPanel.add(testQuestion3Label);
+		//Set font, size, and location for "a" as  multiple choice answer to question 3 as a JLabel and added to the testpanel
 		testQuestion3AnswerA.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion3AnswerA.setSize(450, 50);
-		testQuestion3AnswerA.setLocation(10, 370);
+		testQuestion3AnswerA.setLocation(10, 375);
 		newTestPanel.add(testQuestion3AnswerA);
+		//Set font, size, and location for "b" as  multiple choice answer to question 3 as a JLabel and added to the testpanel
 		testQuestion3AnswerB.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion3AnswerB.setSize(450, 50);
 		testQuestion3AnswerB.setLocation(10, 400);
 		newTestPanel.add(testQuestion3AnswerB);
+		//Set font, size, and location for "c" as  multiple choice answer to question 3 as a JLabel and added to the testpanel
 		testQuestion3AnswerC.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion3AnswerC.setSize(450, 50);
 		testQuestion3AnswerC.setLocation(10, 425);
 		newTestPanel.add(testQuestion3AnswerC);
+		//Set font, size, and location for "d" as  multiple choice answer to question 3 as a JLabel and added to the testpanel
 		testQuestion3AnswerD.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		testQuestion3AnswerD.setSize(450, 50);
 		testQuestion3AnswerD.setLocation(10, 450);
