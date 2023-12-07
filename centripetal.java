@@ -23,7 +23,7 @@ public class centripetal implements ActionListener, KeyListener, MouseListener, 
 	JLabel creditLabel2 = new JLabel("at St. Augustine CHS Computer Science");
 	JLabel creditLabel3 = new JLabel("made this program");
 	
-	//Initalizing timer for the animation
+	//Initializing timer for the animation
 	Timer theTimer = new Timer(1000/48, this);
 	
 	//The leaderboard's text area and also the leaderboard's scroll pane to initialize
