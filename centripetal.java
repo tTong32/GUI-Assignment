@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.*;
 
-public class centripedal implements ActionListener, KeyListener, MouseListener, MouseMotionListener, ChangeListener{
+public class centripetal implements ActionListener, KeyListener, MouseListener, MouseMotionListener, ChangeListener{
 	// Properties
 	//The frame and the panels are listed
 	JFrame theFrame = new JFrame("GUI Project");
@@ -381,7 +381,7 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	}
 
 	// Constructor
-	public centripedal(){
+	public centripetal(){
 		//Setting the panels dimensions and layout to null so that we don't need to use the default values
 		thePanel.setLayout(null);
 		newTestPanel.setLayout(null);
@@ -668,6 +668,6 @@ public class centripedal implements ActionListener, KeyListener, MouseListener, 
 	}
 	// Main Method
 	public static void main(String[] args){
-		new centripedal();
+		new centripetal();
 	}
 }
